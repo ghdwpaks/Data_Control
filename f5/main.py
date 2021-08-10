@@ -1,7 +1,7 @@
 import csv
-from os import truncate
+from os import altsep, truncate
 
-class setting_fir :
+class setting :
 
     def get_table(filepath) :
             #table.csv
@@ -22,8 +22,35 @@ class setting_fir :
                 #print(i)
                 res.append(temp_li)
         return res
+    def duplicate_deficiencying(table) :
+        res = []
+        kinds_lv1 = []
+        for i in table :
+            if i[0] not in kinds_lv1 :
+                kinds_lv1.append(i[0])
+        print("duplicate_deficiencying kinds_lv1 :",kinds_lv1)
+        prints.print_list(kinds_lv1)
+        kinds_lv2 = []
+        for i in table :
+            if i[1] not in kinds_lv2 :
+                kinds_lv2.append(i[1])
+        print("duplicate_deficiencying kinds_lv2 :",kinds_lv2)
+        prints.print_list(kinds_lv2)
+        kinds_lv3 = []
+        for i in table :
+            if i[2] not in kinds_lv3 :
+                kinds_lv3.append(i[2])
+        print("duplicate_deficiencying kinds_lv3 :",kinds_lv3)
+        prints.print_list(kinds_lv3)
+
+        for i in kinds_lv1 :
+            for j in kinds_lv2 :
+                for k in kinds_lv3 :
+                    pass
+
 
 class selects :
+
     def select_lv1_category(table) :
         res = []
         for i in table :
@@ -39,10 +66,14 @@ class selects :
     def select_lv2_category(table,cat_name) :
         res = []
         for i in table :
-            if cat_name in i["품목명"] :
-                res.append(i)
+            #print("select lv2 category i:",i)
+            if cat_name in i[0] :
+                if i not in res :
 
-        prints.print_list("select lv2 category res :",res)
+                    print("select lv2 category appending culomn :",i)
+                    res.append(i)
+
+        #prints.print_list("select lv2 category res :",res)
         return res
     
     
@@ -83,37 +114,51 @@ class prints :
     
 class sectors :
     def sector1() :
-        table = []
-        table = setting_fir.get_table("table.csv")
-        #print("len(table) bf :",len(table))
-
-        table = setting_fir.setting_column(table)
-        #print("len(table) af :",len(table))
-        #prints.print_list(table)
-
-        big_cat = selects.select_lv1_category(table)
-
-        prints.print_div_6(big_cat)
-        user_big_cat = ""
         while True :
-            print("종류를 정확히 골라주세요")
-            user_big_cat = input("입력 :")
-            if user_big_cat in big_cat :
-                print("주제가 정확히 들어맞음을 확인했습니다.")
+            table = []
+            table = setting.get_table("table.csv")
+            #print("len(table) bf :",len(table))
+
+            table = setting.setting_column(table)
+            #print("len(table) af :",len(table))
+            #prints.print_list(table)
+
+            big_cat = selects.select_lv1_category(table)
+
+            prints.print_div_6(big_cat)
+            user_big_cat = ""
+            while True :
+                print("종류를 정확히 골라주세요")
+                user_big_cat = input("입력 :")
+                if user_big_cat in big_cat :
+                    print("주제가 정확히 들어맞음을 확인했습니다.")
+                    break
+                else :
+                    print("주제가 포함되지 않음을 확인했습니다.")
+                    continue
+            
+            small_cat = selects.select_lv2_category(table,user_big_cat)
+            prints.print_list(small_cat)
+
+            setting.duplicate_deficiencying(small_cat   )
+            
+            print("\n\n")
+            print("sector 1 의 역할이 전부 끝났습니다.\n계속 하시려면 엔터, 그만두시려면 'ㄴ' 또는 's'를 눌러주세요")
+            choose_exit = input("입력 : ")
+            choose_exit.lower()
+            if choose_exit == 'ㄴ' or choose_exit == "s" :
                 break
             else :
-                print("주제가 포함되지 않음을 확인했습니다.")
                 continue
-        
-        small_cat = selects.select_lv2_category(table,user_big_cat)
+            print("\n\n")
                 
 
         
     
 
 
-# get_table -> setting_column
-# get_table -> setting_column -> select_lv1_category
+# get_table -> setting
+# get_table -> setting -> select_lv1_category
 
 
 while True :
