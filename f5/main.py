@@ -87,8 +87,37 @@ class setting :
                                     #print("5n :",n)
                                     #print("6n[0] :",n[0])
                                     #print("7n[1] :",n[1])
-        print("kinds_res_cat; res :",kinds_res_cat)
+        print("1kinds_res_cat; res :",kinds_res_cat)
         prints.print_list(kinds_res_cat)    
+        for i in kinds_res_cat :
+            temp_res = 0
+            for j in i[1] :
+                temp_res += int(j)
+            temp_res = temp_res // len(i[1])
+            i[1] = temp_res
+        print("2kinds_res_cat; res :",kinds_res_cat)
+        prints.print_list(kinds_res_cat)  
+        print("이름\t\t무게\t등급\t\t평군가격")
+        for i in kinds_res_cat :
+            #print("{}\t\t{}\t{}\t\t{}".format(i[0][0],i[0][1],i[0][2],i[1]))
+            #get_real_length_on_CMD
+            pass
+            print(i[0][0],end="")
+            if prints.get_real_length_on_CMD(i[0][0]) >9 :
+                print("\t\t\t",end="")
+            elif prints.get_real_length_on_CMD(i[0][0]) > 17 :
+                print("\t\t",end="")
+            elif prints.get_real_length_on_CMD(i[0][0]) > 25 :
+                print("\t",end="")
+            
+            print(i[0][1],end="\t")
+            print(i[0][2],end="\t")
+            print(i[1])
+            
+                
+
+        print("이름\t\t무게\t등급\t\t평군가격")
+                
                                     
 
 
