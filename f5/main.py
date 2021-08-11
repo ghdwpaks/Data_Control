@@ -48,7 +48,13 @@ class setting :
         kinds_res_cat = []
         for i in table :
             temp_list = [i[0],i[1],i[2]]
-            if temp_list not in kinds_res_cat :
+            not_count = 0
+            for j in range(len(kinds_res_cat)) :
+                if not temp_list == kinds_res_cat[j][0] :
+                    not_count += 1
+                    pass
+            
+            if not_count == len(kinds_res_cat) :
                 kinds_res_cat.append([temp_list,[]])
         print("table :")
         prints.print_list(table )
@@ -56,31 +62,33 @@ class setting :
         prints.print_list(kinds_res_cat)
         #kinds_res_cat[0][1].append(1)
         #print(kinds_res_cat[0][1][0])
-        os.system('pause')
+        #os.system('pause')
         res = []
         for i in kinds_lv1 :
-            print("i :",i)
+            #print("i :",i)
             for j in kinds_lv2 :
                 for k in kinds_lv3 :
                     for e in table :
-                        print("e :",e)
+                        #print("e :",e)
                         if e[0] == i and e[1] == j and e[2] == k :
                             t_title = [e[0],e[1],e[2]]
-                            print(t_title)
+                            #print(t_title)
                             for n in kinds_res_cat :
-                                print("n[0] == t_title :",n[0] == t_title)
-                                print("n[0] :",n[0] )
-                                print("t_title :",t_title)
-                                os.system('pause')
+                                #print("n[0] == t_title :",n[0] == t_title)
+                                #print("n[0] :",n[0] )
+                                #print("t_title :",t_title)
+                                #os.system('pause')
                                 if n[0] == t_title :
-                                    print("1n :",n)
-                                    print("2n[0] :",n[0])
-                                    print("3n[1] :",n[1])
-                                    print("4appending target e[3]:",e[3])
+                                    #print("1n :",n)
+                                    #print("2n[0] :",n[0])
+                                    #print("3n[1] :",n[1])
+                                    #print("4appending target e[3]:",e[3])
                                     n[1].append(e[3])
-                                    print("5n :",n)
-                                    print("6n[0] :",n[0])
-                                    print("7n[1] :",n[1])
+                                    #print("5n :",n)
+                                    #print("6n[0] :",n[0])
+                                    #print("7n[1] :",n[1])
+        print("kinds_res_cat; res :",kinds_res_cat)
+        prints.print_list(kinds_res_cat)    
                                     
 
 
