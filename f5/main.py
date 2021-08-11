@@ -1,5 +1,5 @@
 import csv
-from os import altsep, truncate
+import os
 
 class setting :
 
@@ -23,30 +23,65 @@ class setting :
                 res.append(temp_li)
         return res
     def duplicate_deficiencying(table) :
-        res = []
+        prints.print_list(table)
         kinds_lv1 = []
         for i in table :
             if i[0] not in kinds_lv1 :
                 kinds_lv1.append(i[0])
         print("duplicate_deficiencying kinds_lv1 :",kinds_lv1)
         prints.print_list(kinds_lv1)
+
         kinds_lv2 = []
         for i in table :
             if i[1] not in kinds_lv2 :
                 kinds_lv2.append(i[1])
         print("duplicate_deficiencying kinds_lv2 :",kinds_lv2)
         prints.print_list(kinds_lv2)
+
         kinds_lv3 = []
         for i in table :
             if i[2] not in kinds_lv3 :
                 kinds_lv3.append(i[2])
         print("duplicate_deficiencying kinds_lv3 :",kinds_lv3)
         prints.print_list(kinds_lv3)
-
+        
+        kinds_res_cat = []
+        for i in table :
+            temp_list = [i[0],i[1],i[2]]
+            if temp_list not in kinds_res_cat :
+                kinds_res_cat.append([temp_list,[]])
+        print("table :")
+        prints.print_list(table )
+        print("kinds_res_cat :")
+        prints.print_list(kinds_res_cat)
+        #kinds_res_cat[0][1].append(1)
+        #print(kinds_res_cat[0][1][0])
+        os.system('pause')
+        res = []
         for i in kinds_lv1 :
+            print("i :",i)
             for j in kinds_lv2 :
                 for k in kinds_lv3 :
-                    pass
+                    for e in table :
+                        print("e :",e)
+                        if e[0] == i and e[1] == j and e[2] == k :
+                            t_title = [e[0],e[1],e[2]]
+                            print(t_title)
+                            for n in kinds_res_cat :
+                                print("n[0] == t_title :",n[0] == t_title)
+                                print("n[0] :",n[0] )
+                                print("t_title :",t_title)
+                                os.system('pause')
+                                if n[0] == t_title :
+                                    print("1n :",n)
+                                    print("2n[0] :",n[0])
+                                    print("3n[1] :",n[1])
+                                    print("4appending target e[3]:",e[3])
+                                    n[1].append(e[3])
+                                    print("5n :",n)
+                                    print("6n[0] :",n[0])
+                                    print("7n[1] :",n[1])
+                                    
 
 
 class selects :
@@ -140,7 +175,7 @@ class sectors :
             small_cat = selects.select_lv2_category(table,user_big_cat)
             prints.print_list(small_cat)
 
-            setting.duplicate_deficiencying(small_cat   )
+            setting.duplicate_deficiencying(small_cat)
             
             print("\n\n")
             print("sector 1 의 역할이 전부 끝났습니다.\n계속 하시려면 엔터, 그만두시려면 'ㄴ' 또는 's'를 눌러주세요")
