@@ -45,19 +45,16 @@ class setting :
         print("duplicate_deficiencying kinds_lv3 :",kinds_lv3)
         prints.print_list(kinds_lv3)
         
-        kinds_res_cat = []
+        kinds_res_cat_t = []
         for i in table :
             temp_list = [i[0],i[1],i[2]]
-            not_count = 0
-            for j in range(len(kinds_res_cat)) :
-                if not temp_list == kinds_res_cat[j][0] :
-                    not_count += 1
-                    pass
-            
-            if not_count == len(kinds_res_cat) :
-                kinds_res_cat.append([temp_list,[]])
+            if temp_list not in kinds_res_cat_t :
+                kinds_res_cat_t.append(temp_list)
+        kinds_res_cat = []
+        for i in kinds_res_cat_t :
+            kinds_res_cat.append([i,[]])
         print("table :")
-        prints.print_list(table )
+        prints.print_list(table)
         print("kinds_res_cat :")
         prints.print_list(kinds_res_cat)
         #kinds_res_cat[0][1].append(1)
@@ -97,26 +94,30 @@ class setting :
             i[1] = temp_res
         print("2kinds_res_cat; res :",kinds_res_cat)
         prints.print_list(kinds_res_cat)  
-        print("이름\t\t무게\t등급\t\t평군가격")
+        print("이름\t\t\t무게\t등급\t\t평균가격")
         for i in kinds_res_cat :
             #print("{}\t\t{}\t{}\t\t{}".format(i[0][0],i[0][1],i[0][2],i[1]))
             #get_real_length_on_CMD
             pass
             print(i[0][0],end="")
-            if prints.get_real_length_on_CMD(i[0][0]) >9 :
+            if prints.get_real_length_on_CMD(i[0][0]) < 8 :
                 print("\t\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][0]) > 17 :
+            elif prints.get_real_length_on_CMD(i[0][0]) < 16 :
                 print("\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][0]) > 25 :
-                print("\t",end="")
-            
+            elif prints.get_real_length_on_CMD(i[0][0]) < 24 :
+                print(" ",end="")
+                
             print(i[0][1],end="\t")
-            print(i[0][2],end="\t")
+            print(i[0][2],end="")
+            if prints.get_real_length_on_CMD(i[0][2]) < 8 :
+                print("\t\t",end="")
+            elif prints.get_real_length_on_CMD(i[0][2]) < 16 :
+                print("\t",end="")
             print(i[1])
             
                 
 
-        print("이름\t\t무게\t등급\t\t평군가격")
+        print("이름\t\t\t무게\t등급\t\t평군가격")
                 
                                     
 
@@ -175,7 +176,7 @@ class prints :
             if string[i].encode().isdigit() :
                 count += 1
             else :
-                if string[i] == "]" or string[i] == "[" or string[i] == ")" or string[i] == "(" or string[i].encode().isalpha():
+                if string[i] == "]" or string[i] == "[" or string[i] == ")" or string[i] == "(" or string[i] == " " or string[i].encode().isalpha():
                     #영어 맞음
                     count += 1
                 else :
