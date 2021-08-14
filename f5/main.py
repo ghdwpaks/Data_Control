@@ -94,18 +94,20 @@ class setting :
             i[1] = temp_res
         print("2kinds_res_cat; res :",kinds_res_cat)
         prints.print_list(kinds_res_cat)  
-        print("이름\t\t\t무게\t등급\t\t평균가격")
+        print("이름\t\t\t\t무게\t등급\t\t평균가격")
         for i in kinds_res_cat :
             #print("{}\t\t{}\t{}\t\t{}".format(i[0][0],i[0][1],i[0][2],i[1]))
             #get_real_length_on_CMD
             pass
             print(i[0][0],end="")
             if prints.get_real_length_on_CMD(i[0][0]) < 8 :
-                print("\t\t\t",end="")
+                print("\t\t\t\t",end="")
             elif prints.get_real_length_on_CMD(i[0][0]) < 16 :
-                print("\t\t",end="")
+                print("\t\t\t",end="")
             elif prints.get_real_length_on_CMD(i[0][0]) < 24 :
-                print(" ",end="")
+                print("\t\t",end="")
+            elif prints.get_real_length_on_CMD(i[0][0]) < 32 :
+                print(" \t",end="")
                 
             print(i[0][1],end="\t")
             print(i[0][2],end="")
@@ -117,7 +119,7 @@ class setting :
             
                 
 
-        print("이름\t\t\t무게\t등급\t\t평군가격")
+        print("이름\t\t\t\t무게\t등급\t\t평균가격")
                 
                                     
 
