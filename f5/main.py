@@ -22,7 +22,7 @@ class setting :
                 #print(i)
                 res.append(temp_li)
         return res
-    def duplicate_deficiencying(table) :
+    def duplicate_deficiencying_name(table) :
         prints.print_list(table)
         kinds_lv1 = []
         for i in table :
@@ -93,33 +93,30 @@ class setting :
             temp_res = temp_res // len(i[1])
             i[1] = temp_res
         print("2kinds_res_cat; res :",kinds_res_cat)
-        prints.print_list(kinds_res_cat)  
-        print("이름\t\t\t\t무게\t등급\t\t평균가격")
-        for i in kinds_res_cat :
-            #print("{}\t\t{}\t{}\t\t{}".format(i[0][0],i[0][1],i[0][2],i[1]))
-            #get_real_length_on_CMD
-            pass
-            print(i[0][0],end="")
-            if prints.get_real_length_on_CMD(i[0][0]) < 8 :
-                print("\t\t\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][0]) < 16 :
-                print("\t\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][0]) < 24 :
-                print("\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][0]) < 32 :
-                print(" \t",end="")
-                
-            print(i[0][1],end="\t")
-            print(i[0][2],end="")
-            if prints.get_real_length_on_CMD(i[0][2]) < 8 :
-                print("\t\t",end="")
-            elif prints.get_real_length_on_CMD(i[0][2]) < 16 :
-                print("\t",end="")
-            print(i[1])
-            
-                
+        prints.print_list(kinds_res_cat)
+        return kinds_res_cat  
+    def integrating_list (target_list) :
+        '''
 
-        print("이름\t\t\t\t무게\t등급\t\t평균가격")
+        [['[사과]로얄부사', '10kg', '특(1등)'], 23828]
+        [['[사과]로얄부사', '10kg', '상(2등)'], 9181]
+        [['[사과]부사(사과)', '10kg', '보통(3등)'], 10800]
+        '''
+        print("intergrating_list target_list :")
+        prints.print_list(target_list)
+        res = []
+        for i in target_list :
+            print("intergrating_list i :",i)
+            print("intergrating_list i[0][0] :",i[0][0])
+            print("intergrating_list i[0][1] :",i[0][1])
+            print("intergrating_list i[0][2] :",i[0][2])
+            print("intergrating_list i[1] :",i[1])
+            res.append([i[0][0],i[0][1],i[0][2],i[1]])
+        print("intergrating_list res : ")
+        prints.print_list(res)
+        return res
+        
+        
                 
                                     
 
@@ -189,16 +186,17 @@ class prints :
     
 class sectors :
     def sector1() :
+        table = []
+        table = setting.get_table("table.csv")
+        #print("len(table) bf :",len(table))
+
+        table = setting.setting_column(table)
+        #print("len(table) af :",len(table))
+        #prints.print_list(table)
+
+        big_cat = selects.select_lv1_category(table)
         while True :
-            table = []
-            table = setting.get_table("table.csv")
-            #print("len(table) bf :",len(table))
-
-            table = setting.setting_column(table)
-            #print("len(table) af :",len(table))
-            #prints.print_list(table)
-
-            big_cat = selects.select_lv1_category(table)
+            
 
             prints.print_div_6(big_cat)
             user_big_cat = ""
@@ -213,9 +211,55 @@ class sectors :
                     continue
             
             small_cat = selects.select_lv2_category(table,user_big_cat)
+            print("sector 1 small_cat :")
             prints.print_list(small_cat)
 
-            setting.duplicate_deficiencying(small_cat)
+            
+            print("1.품목명별 정보 출력(기본값)")
+            print("2.단위별 정보 출력")
+            print("3.등급별 정보 출력")
+            print("4.가격별 정보 출력")
+            sorting_sub = input("입력 : ")
+            kinds_res_cat = setting.duplicate_deficiencying_name(small_cat)
+            kinds_res_cat = setting.integrating_list(kinds_res_cat)
+
+            if sorting_sub== "1" :
+                print("품목명별 정보 출력 선택됨")
+            elif sorting_sub== "2" :
+                print("단위별 정보 출력 선택됨")
+            elif sorting_sub== "3" :
+                print("등급별 정보 출력 선택됨")
+            elif sorting_sub== "4" :
+                print("가격별 정보 출력 선택됨")
+            
+
+
+
+            
+            print("이름\t\t\t\t무게\t등급\t\t평균가격")
+            for i in kinds_res_cat :
+                #print("sector 1 kinds_res_cat i :",i)
+                #print("{}\t\t{}\t{}\t\t{}".format(i[0][0],i[0][1],i[0][2],i[1]))
+                #get_real_length_on_CMD
+                pass
+                print(i[0],end="")
+                if prints.get_real_length_on_CMD(i[0]) < 8 :
+                    print("\t\t\t\t",end="")
+                elif prints.get_real_length_on_CMD(i[0]) < 16 :
+                    print("\t\t\t",end="")
+                elif prints.get_real_length_on_CMD(i[0]) < 24 :
+                    print("\t\t",end="")
+                elif prints.get_real_length_on_CMD(i[0]) < 32 :
+                    print(" \t",end="")
+                    
+                print(i[1],end="\t")
+                print(i[2],end="")
+                if prints.get_real_length_on_CMD(i[2]) < 8 :
+                    print("\t\t",end="")
+                elif prints.get_real_length_on_CMD(i[2]) < 16 :
+                    print("\t",end="")
+                print(i[3])
+            print("이름\t\t\t\t무게\t등급\t\t평균가격")
             
             print("\n\n")
             print("sector 1 의 역할이 전부 끝났습니다.\n계속 하시려면 엔터, 그만두시려면 'ㄴ' 또는 's'를 눌러주세요")
@@ -241,6 +285,11 @@ while True :
     print("농수산물 정보 출력 시스템에 진입했습니다.")
     print("원하는 기능을 '숫자로만' 선택해주세요.")
     print("1.품목명별 정보 출력")
+    print("2.단위별 정보 출력")
+    print("3.등급별 정보 출력")
+    print("4.가격별 정보 출력")
+    print("5.산지별 정보 출력")
+    print("6.친환경 구분별 정보 출력")
     select1_subject = input("입력 : ")
     if select1_subject == '1' :
         sectors.sector1()
