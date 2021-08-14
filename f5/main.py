@@ -227,11 +227,13 @@ class sectors :
                 print("품목명별 정보 출력 선택됨")
             elif sorting_sub== "2" :
                 print("단위별 정보 출력 선택됨")
+                kinds_res_cat.sort(key=lambda x:x[1])
             elif sorting_sub== "3" :
                 print("등급별 정보 출력 선택됨")
+                kinds_res_cat.sort(key=lambda x:x[2])
             elif sorting_sub== "4" :
                 print("가격별 정보 출력 선택됨")
-            
+                kinds_res_cat.sort(key=lambda x:x[3])
 
 
 
