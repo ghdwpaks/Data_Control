@@ -37,13 +37,14 @@ class setting :
                 kinds_lv2.append(i[1])
         print("duplicate_deficiencying kinds_lv2 :",kinds_lv2)
         prints.print_list(kinds_lv2)
-
+        
+        
         kinds_lv3 = []
         for i in table :
             if i[2] not in kinds_lv3 :
                 kinds_lv3.append(i[2])
-        print("duplicate_deficiencying kinds_lv3 :",kinds_lv3)
-        prints.print_list(kinds_lv3)
+        #print("duplicate_deficiencying kinds_lv3 :",kinds_lv3)
+        #prints.print_list(kinds_lv3)
         
         kinds_res_cat_t = []
         for i in table :
@@ -93,6 +94,7 @@ class setting :
             temp_res = temp_res // len(i[1])
             i[1] = temp_res
         print("2kinds_res_cat; res :",kinds_res_cat)
+
         prints.print_list(kinds_res_cat)
         return kinds_res_cat  
     def integrating_list (target_list) :
@@ -115,6 +117,38 @@ class setting :
         print("intergrating_list res : ")
         prints.print_list(res)
         return res
+    def sorting_grade(kinds_lv2) :
+        print('sorting_grade kinds_lv2 :')
+        prints.print_list(kinds_lv2)
+        tres1 = []
+        tres2 = []
+
+        for i in kinds_lv2 :
+            tres1.append(str(i).split("kg")[0])
+        for i in range(len(tres1)) :
+            if list(tres1[i])[0] == '.' :
+                tres1[i] = "0"+str(tres1[i])
+        
+        temps1 = [[],[],[],[]]
+        for i in tres1 :
+            temps1[len(str(str(i).split(".")[0])) - 1].append(i)
+        
+        for i in range(len(temps1)) :
+            for j in range(len(temps1[i])) :
+                try :
+                    temps1[i][j] = int(temps1[i][j])
+                finally :
+                    temps1[i][j] = float(temps1[i][j])
+
+        temps1.sort(key=lambda x:x[0])
+        
+                
+ 
+        print("sorting_grade tres1 :",tres1)
+        print("sorting_grade temps1 :")
+        prints.print_list(temps1)
+        pass
+        
         
         
                 
@@ -147,6 +181,8 @@ class selects :
 
         #prints.print_list("select lv2 category res :",res)
         return res
+    
+    
     
     
     
@@ -195,15 +231,27 @@ class sectors :
         #prints.print_list(table)
 
         big_cat = selects.select_lv1_category(table)
+        print("sector1 bit_cat :")
+        prints.print_list(big_cat)
+        os.system("pause")
+        huge_cat = []
+        for i in big_cat :
+            appending_ops = str(i).split("(")[0]
+            if not appending_ops in huge_cat :
+                huge_cat.append(appending_ops)
+        print("sectors1 huge_cat :")
+        prints.print_list(huge_cat)
+        os.system("pause")
+
         while True :
             
 
-            prints.print_div_6(big_cat)
+            prints.print_div_6(huge_cat)
             user_big_cat = ""
             while True :
                 print("종류를 정확히 골라주세요")
                 user_big_cat = input("입력 :")
-                if user_big_cat in big_cat :
+                if user_big_cat in huge_cat :
                     print("주제가 정확히 들어맞음을 확인했습니다.")
                     break
                 else :
@@ -214,7 +262,13 @@ class sectors :
             print("sector 1 small_cat :")
             prints.print_list(small_cat)
 
-            
+            kinds_lv2 = []
+            for i in table :
+                if i[1] not in kinds_lv2 :
+                    kinds_lv2.append(i[1])
+            print("duplicate_deficiencying kinds_lv2 :",kinds_lv2)
+            prints.print_list(kinds_lv2)
+            setting.sorting_grade(kinds_lv2)
             print("1.품목명별 정보 출력(기본값)")
             print("2.단위별 정보 출력")
             print("3.등급별 정보 출력")
@@ -223,11 +277,14 @@ class sectors :
             kinds_res_cat = setting.duplicate_deficiencying_name(small_cat)
             kinds_res_cat = setting.integrating_list(kinds_res_cat)
 
+            
+
             if sorting_sub== "1" :
                 print("품목명별 정보 출력 선택됨")
             elif sorting_sub== "2" :
                 print("단위별 정보 출력 선택됨")
-                kinds_res_cat.sort(key=lambda x:x[1])
+                #kinds_res_cat.sort(key=lambda x:x[1])
+                
             elif sorting_sub== "3" :
                 print("등급별 정보 출력 선택됨")
                 kinds_res_cat.sort(key=lambda x:x[2])
