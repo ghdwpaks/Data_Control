@@ -68,7 +68,7 @@ class Worker(threading.Thread):
         self.name = name            # thread 이름 지정
     def run(self):
         print("sub thread start ", threading.currentThread().getName())
-        time.sleep(3)
+        time.sleep(5)
         print("sub thread end ", threading.currentThread().getName())
     def thread_setting_column(self,table) :
         res = []
@@ -80,17 +80,12 @@ class Worker(threading.Thread):
                 #print(i)
                 res.append(temp_li)
                 
+        time.sleep(3)
         print("end thread_setting_column self : ",self)
         return res
         pass
 
-print("main thread start")
-for i in range(5):
-    name = "thread {}".format(i)
-    t = Worker(name)                # sub thread 생성
-    t.start()                     # sub thread의 run 메서드를 호출
 
-print("main thread end")
 
 
 
@@ -106,12 +101,16 @@ for i in range(1) :
         temp_tables.append([])
     
     for j in range(thread_count) :
-        name = "thread {}".format(j)
+        name = "thread {}{}".format(j,j)
         t = Worker(name)
-        t.daemon = True
+        #t.daemon = True
         temp_res = t.thread_setting_column(table)
         temp_tables[j] = temp_res
+
     table = []
+    for j in temp_tables :
+        table += j
+
         
 
     #table = setting.setting_column(table)
@@ -119,5 +118,7 @@ for i in range(1) :
 
     print("time :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
     res.append(round(time.time() - start,2))
+'''print("table :")
+prints.print_list(table)'''
 for i in res :
     print(i)
