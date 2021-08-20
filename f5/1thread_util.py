@@ -2,11 +2,10 @@ from os import rename
 import threading
 import time
 import csv
+from queue import Queue
 
 
-
-
-
+queue = Queue()  # 크기가 1인 버퍼
 
 
 class prints :
@@ -52,73 +51,68 @@ class setting :
                     #print(row)
             return table
 
-    def setting_column(table) :
-        res = []
-        for i in table :
-            temp_li = [i["품목명"],i["단위"],i["등급"],i["가격"]]
-            #print("setting_column tmp_li :",temp_li)
-            if not i in res :
-                #print(i)
-                res.append(temp_li)
-        return res
-
-class Worker(threading.Thread):
-    def __init__(self, name):
-        super().__init__()
-        self.name = name            # thread 이름 지정
-    def run(self):
-        print("sub thread start ", threading.currentThread().getName())
-        time.sleep(5)
-        print("sub thread end ", threading.currentThread().getName())
-    def thread_setting_column(self,table) :
-        res = []
-        print("start thread_setting_column self : ",self)
-        for i in table :
-            temp_li = [i["품목명"],i["단위"],i["등급"],i["가격"]]
-            #print("setting_column tmp_li :",temp_li)
-            if not i in res :
-                #print(i)
-                res.append(temp_li)
-                
-        time.sleep(3)
-        print("end thread_setting_column self : ",self)
-        return res
+    def setting_queue(table) :
+        global thread_count
+        div_size = len(table)//thread_count
+        for k in range(len(table)) :
+            if k == div_size :
+                queue.put(table[0:div_size])
+            elif k >= len(table) :
+                queue.put(table[len(table)-div_size:])
+            elif k%div_size == 0 and k != 0 :
+                queue.put(table[k-div_size:k])
         pass
 
+    def setting_column_on_queue() :
+        res = []
+        table = queue.get()
+        #print("setting column on queue table :")
+        #prints.print_list(table)
+        for i in table :
+            #print("i :",i)
+            try:
+                # 무언가를 수행한다.
+                print('i :',i)
+                temp_li = [i["품목명"],i["단위"],i["등급"],i["가격"]]
+                #print("temp_li :",temp_li)
+            finally:
+                pass
+            #print("setting_column tmp_li :",temp_li)
+            if not i in res :
+                #print(i)
+                res.append(temp_li)
+        queue.put(res)
+        #return res
 
 
 
 
 res = []
 thread_count = 6
+table = []
 for i in range(1) :
     start = time.time()  # 시작 시간 저장
     table = []
     table = setting.get_table("ttable.csv")
+    setting.setting_queue(table)
         
-    temp_tables = []
     for j in range(thread_count) :
-        temp_tables.append([])
-    
-    for j in range(thread_count) :
-        name = "thread {}{}".format(j,j)
-        t = Worker(name)
-        #t.daemon = True
-        temp_res = t.thread_setting_column(table)
-        temp_tables[j] = temp_res
+        print("thread {} entered ".format(j))
+        thread = threading.Thread(target=setting.setting_column_on_queue)
+        thread.start()
+    thread.join()
 
     table = []
+    '''
     for j in temp_tables :
         table += j
-
-        
-
-    #table = setting.setting_column(table)
+    '''
+    
     big_cat = selects.select_lv1_category(table)
 
     print("time :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
     res.append(round(time.time() - start,2))
-'''print("table :")
-prints.print_list(table)'''
+print("table :")
+prints.print_list(table)
 for i in res :
     print(i)
