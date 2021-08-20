@@ -1,5 +1,7 @@
 import csv
 import os
+import threading
+import time
 
 class setting :
 
@@ -219,6 +221,20 @@ class prints :
         #print("GRLOC :",count)
         return count
 
+class Worker(threading.Thread):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name            # thread 이름 지정
+
+    def run(self):
+        print("sub thread start ", threading.currentThread().getName())
+        time.sleep(3)
+        print("sub thread end ", threading.currentThread().getName())
+        
+    def mine(self) :
+        print("\tmine enterd")
+        print("\t"+self.name)
+        print("\tmine end")
     
 class sectors :
     def sector1() :
