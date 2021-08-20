@@ -1,9 +1,10 @@
-from os import rename
+from os import rename, truncate
 import os
 import threading
 import time
 import csv
 from queue import Queue
+import copy
 
 
 queue = Queue()  # 크기가 1인 버퍼
@@ -70,14 +71,18 @@ class setting :
         pass
 
     def setting_column_on_queue() :
-        print("setting_column_on_queue thread_count :",thread_count)
-        print("int(queue.qsize) // thread_count :",int(queue.qsize()) // thread_count)
-        for i in range(int(queue.qsize()) // thread_count) :
-            #print("queue.qsize() :",queue.qsize())
-            table_tuple = queue.get()
-            #print("setting column on queue table_tuple :",table_tuple)
-            #temp_li = [table[i]["품목명"],table[i]["단위"],table[i]["등급"],table[i]["가격"]]
-            queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
+        while True :
+            #whatget = 0
+            try :
+                #print("queue.qsize() :",queue.qsize())
+                table_tuple = queue.get()
+                #whatget = copy.deepcopy(table_tuple)
+                #print("setting column on queue table_tuple :",table_tuple)
+                #temp_li = [table[i]["품목명"],table[i]["단위"],table[i]["등급"],table[i]["가격"]]
+                queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
+            except :
+                #print("whatget :",whatget)
+                break
         #return res
 
 os.system("cls")
@@ -98,6 +103,8 @@ for i in range(1) :
         #print("thread {} entered ".format(j))
         thread = threading.Thread(target=setting.setting_column_on_queue)
         thread.start()
+    for j in range(queue.qsize() % thread_count) :
+        setting.setting_column_on_queue()
 
     
     table = []
@@ -113,7 +120,7 @@ for i in range(1) :
 queueres = []
 for i in range(queue.qsize()) :
     queueres.append(queue.get())
-print("queueres :")
+#print("queueres :")
 #prints.print_list(queueres)
 for i in res :
     print(i)
