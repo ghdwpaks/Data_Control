@@ -1,4 +1,5 @@
 from os import rename
+import os
 import threading
 import time
 import csv
@@ -63,45 +64,42 @@ class setting :
                 queue.put(table[k-div_size:k])
         pass
 
-    def setting_column_on_queue() :
-        res = []
-        table = queue.get()
-        #print("setting column on queue table :")
-        #prints.print_list(table)
+    def synchronization_queue_to_table(table) :
         for i in table :
-            #print("i :",i)
-            try:
-                # 무언가를 수행한다.
-                print('i :',i)
-                temp_li = [i["품목명"],i["단위"],i["등급"],i["가격"]]
-                #print("temp_li :",temp_li)
-            finally:
-                pass
-            #print("setting_column tmp_li :",temp_li)
-            if not i in res :
-                #print(i)
-                res.append(temp_li)
-        queue.put(res)
+            queue.put(i)
+        pass
+
+    def setting_column_on_queue() :
+        print("setting_column_on_queue thread_count :",thread_count)
+        print("int(queue.qsize) // thread_count :",int(queue.qsize()) // thread_count)
+        for i in range(int(queue.qsize()) // thread_count) :
+            #print("queue.qsize() :",queue.qsize())
+            table_tuple = queue.get()
+            #print("setting column on queue table_tuple :",table_tuple)
+            #temp_li = [table[i]["품목명"],table[i]["단위"],table[i]["등급"],table[i]["가격"]]
+            queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
         #return res
 
-
+os.system("cls")
 
 
 res = []
-thread_count = 6
+thread_count = 12
 table = []
 for i in range(1) :
     start = time.time()  # 시작 시간 저장
     table = []
     table = setting.get_table("ttable.csv")
-    setting.setting_queue(table)
-        
+    #setting.setting_queue(table)
+    setting.synchronization_queue_to_table(table)
+    lentable = len(table)
+    print("main queue.qsize() :",queue.qsize())
     for j in range(thread_count) :
-        print("thread {} entered ".format(j))
+        #print("thread {} entered ".format(j))
         thread = threading.Thread(target=setting.setting_column_on_queue)
         thread.start()
-    thread.join()
 
+    
     table = []
     '''
     for j in temp_tables :
@@ -112,7 +110,10 @@ for i in range(1) :
 
     print("time :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
     res.append(round(time.time() - start,2))
-print("table :")
-prints.print_list(table)
+queueres = []
+for i in range(queue.qsize()) :
+    queueres.append(queue.get())
+print("queueres :")
+#prints.print_list(queueres)
 for i in res :
     print(i)
