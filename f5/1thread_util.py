@@ -96,10 +96,10 @@ class setting :
                 break
         #return res
     def setting_column_on_queue_bit_cat() :
-        lim = int(table_queue.qsize())//6
+        
 
         
-        for i in range(lim) :
+        for i in range(int(table_queue.qsize())//6) :
             try :
                 table_tuple = table_queue.get()
                 #print("table_tuple :",table_tuple)
@@ -138,7 +138,7 @@ for i in range(1) :
         setting.setting_column_on_queue()
 
 
-    for j in range(1) :
+    for j in range(thread_count) :
         thread = threading.Thread(target=setting.setting_column_on_queue_bit_cat)
         thread.start()
     for j in range(table_queue.qsize() % thread_count) :
@@ -152,7 +152,7 @@ for i in range(1) :
     temp_big_cat = list(temp_big_cat)
     temp_big_cat.sort()
     prints.print_list(temp_big_cat)
-
+    print("len(temp_big_cat) :",len(temp_big_cat))
 
     
     table = []

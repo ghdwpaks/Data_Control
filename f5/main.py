@@ -9,6 +9,26 @@ table_queue = Queue()
 big_cat_queue = Queue()
 
 class setting :
+    def setting_column_on_queue_bit_cat() :
+        
+
+        
+        for i in range(int(table_queue.qsize())//6) :
+            try :
+                table_tuple = table_queue.get()
+                #print("table_tuple :",table_tuple)
+                temp = str(table_tuple[0]).split("]")
+                #print("temp1 :",temp)
+                del temp[0]
+                #print("temp2 :",temp)
+                temp = str(temp[0]).split("(")[0]
+                #print("temp3 :",temp)   
+                big_cat_queue.put(temp)
+
+                table_queue.put(table_tuple)
+
+            except :
+                break
     def synchronization_queue_to_table(table) :
         for i in table :
             table_queue.put(i)
@@ -168,20 +188,6 @@ class setting :
                 table_queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
             except :
                 break
-    def setting_column_on_queue_bit_cat() :
-        
-        while True :
-            try :
-                table_tuple = table_queue.get()
-                temp = str(table_tuple[0]).split("]")
-                temp = list(temp)
-                temp_li = "".join(temp_li)
-                if temp_li not in big_cat_queue :
-                    big_cat_queue.put(temp_li)
-
-                table_queue.put(table_tuple)
-            except :
-                break
     
         
         
@@ -275,6 +281,9 @@ class sectors :
         table = setting.get_table("table.csv")
         #print("len(table) bf :",len(table))
 
+        '''
+        table = setting.setting_column(table)
+        '''
         setting.synchronization_queue_to_table(table)
         #//////////////////////////////////////////////////////////////////////////////////////////////
         #table = setting.setting_column(table)
@@ -291,25 +300,26 @@ class sectors :
         
         for j in range(thread_count) :
             #print("thread {} entered ".format(j))
-            thread = threading.Thread(target=setting.setting_column_on_queue)
+            thread = threading.Thread(target=setting.setting_column_on_queue_bit_cat)
             thread.start()
         for j in range(table_queue.qsize() % thread_count) :
-            setting.setting_column_on_queue()
+            setting.setting_column_on_queue_bit_cat()
             
 
 
-        big_cat = selects.select_lv1_category(table)
-        print("sector1 bit_cat :")
-        prints.print_list(big_cat)
-        os.system("pause")
+        
         huge_cat = []
-        for i in big_cat :
-            appending_ops = str(i).split("(")[0]
-            if not appending_ops in huge_cat :
-                huge_cat.append(appending_ops)
-        print("sectors1 huge_cat :")
-        prints.print_list(huge_cat)
-        os.system("pause")
+        for j in range(big_cat_queue.qsize()) :
+            temp1 = big_cat_queue.get()
+            huge_cat.append(temp1)
+        huge_cat = set(huge_cat)
+        huge_cat = list(huge_cat)
+        huge_cat.sort()
+        #prints.print_list(huge_cat)
+        #print("len(huge_cat) :",len(huge_cat))
+
+
+        #os.system("pause")
 
         while True :
             
