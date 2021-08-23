@@ -7,10 +7,21 @@ from queue import Queue
 import copy
 
 
-table_queue = Queue()  # 크기가 1인 버퍼
+table_queue = Queue()  
+big_cat_queue = Queue()
 
 
 class prints :
+    
+    def print_div_6(table) :
+        for i in range(len(table)) :
+            if i % 6 == 0 and i != 0:
+                print()
+            print(table[i],end="\t")
+            if prints.get_real_length_on_CMD(table[i]) < 8 :
+                print("\t\t",end="")
+            elif prints.get_real_length_on_CMD(table[i]) < 16 :
+                print("\t",end="")
     def print_list(table) :
         for i in table :
             print(i)
@@ -84,6 +95,26 @@ class setting :
                 #print("whatget :",whatget)
                 break
         #return res
+    def setting_column_on_queue_bit_cat() :
+        lim = int(table_queue.qsize())//6
+
+        
+        for i in range(lim) :
+            try :
+                table_tuple = table_queue.get()
+                #print("table_tuple :",table_tuple)
+                temp = str(table_tuple[0]).split("]")
+                #print("temp1 :",temp)
+                del temp[0]
+                #print("temp2 :",temp)
+                temp = str(temp[0]).split("(")[0]
+                #print("temp3 :",temp)   
+                big_cat_queue.put(temp)
+
+                table_queue.put(table_tuple)
+
+            except :
+                break
 
 os.system("cls")
 
@@ -94,7 +125,7 @@ table = []
 for i in range(1) :
     start = time.time()  # 시작 시간 저장
     table = []
-    table = setting.get_table("ttable.csv")
+    table = setting.get_table("table.csv")
     #setting.setting_queue(table)
     setting.synchronization_queue_to_table(table)
     lentable = len(table)
@@ -105,6 +136,23 @@ for i in range(1) :
         thread.start()
     for j in range(table_queue.qsize() % thread_count) :
         setting.setting_column_on_queue()
+
+
+    for j in range(1) :
+        thread = threading.Thread(target=setting.setting_column_on_queue_bit_cat)
+        thread.start()
+    for j in range(table_queue.qsize() % thread_count) :
+        setting.setting_column_on_queue_bit_cat()
+
+    temp_big_cat = []
+    for j in range(big_cat_queue.qsize()) :
+        temp1 = big_cat_queue.get()
+        temp_big_cat.append(temp1)
+    temp_big_cat = set(temp_big_cat)
+    temp_big_cat = list(temp_big_cat)
+    temp_big_cat.sort()
+    prints.print_list(temp_big_cat)
+
 
     
     table = []

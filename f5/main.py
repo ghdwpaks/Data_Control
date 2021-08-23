@@ -6,6 +6,7 @@ from queue import Queue
 
 
 table_queue = Queue()  
+big_cat_queue = Queue()
 
 class setting :
     def synchronization_queue_to_table(table) :
@@ -158,7 +159,30 @@ class setting :
         print("sorting_grade temps1 :")
         prints.print_list(temps1)
         pass
+    
+
+    def setting_column_on_queue() :
+        while True :
+            try :
+                table_tuple = table_queue.get()
+                table_queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
+            except :
+                break
+    def setting_column_on_queue_bit_cat() :
         
+        while True :
+            try :
+                table_tuple = table_queue.get()
+                temp = str(table_tuple[0]).split("]")
+                temp = list(temp)
+                temp_li = "".join(temp_li)
+                if temp_li not in big_cat_queue :
+                    big_cat_queue.put(temp_li)
+
+                table_queue.put(table_tuple)
+            except :
+                break
+    
         
         
                 
@@ -262,7 +286,17 @@ class sectors :
             thread.start()
         for j in range(table_queue.qsize() % thread_count) :
             setting.setting_column_on_queue()
+        
+        
+        
+        for j in range(thread_count) :
+            #print("thread {} entered ".format(j))
+            thread = threading.Thread(target=setting.setting_column_on_queue)
+            thread.start()
+        for j in range(table_queue.qsize() % thread_count) :
+            setting.setting_column_on_queue()
             
+
 
         big_cat = selects.select_lv1_category(table)
         print("sector1 bit_cat :")
