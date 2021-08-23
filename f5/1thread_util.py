@@ -7,7 +7,7 @@ from queue import Queue
 import copy
 
 
-queue = Queue()  # 크기가 1인 버퍼
+table_queue = Queue()  # 크기가 1인 버퍼
 
 
 class prints :
@@ -58,16 +58,16 @@ class setting :
         div_size = len(table)//thread_count
         for k in range(len(table)) :
             if k == div_size :
-                queue.put(table[0:div_size])
+                table_queue.put(table[0:div_size])
             elif k >= len(table) :
-                queue.put(table[len(table)-div_size:])
+                table_queue.put(table[len(table)-div_size:])
             elif k%div_size == 0 and k != 0 :
-                queue.put(table[k-div_size:k])
+                table_queue.put(table[k-div_size:k])
         pass
 
     def synchronization_queue_to_table(table) :
         for i in table :
-            queue.put(i)
+            table_queue.put(i)
         pass
 
     def setting_column_on_queue() :
@@ -75,11 +75,11 @@ class setting :
             #whatget = 0
             try :
                 #print("queue.qsize() :",queue.qsize())
-                table_tuple = queue.get()
+                table_tuple = table_queue.get()
                 #whatget = copy.deepcopy(table_tuple)
                 #print("setting column on queue table_tuple :",table_tuple)
                 #temp_li = [table[i]["품목명"],table[i]["단위"],table[i]["등급"],table[i]["가격"]]
-                queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
+                table_queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
             except :
                 #print("whatget :",whatget)
                 break
@@ -98,12 +98,12 @@ for i in range(1) :
     #setting.setting_queue(table)
     setting.synchronization_queue_to_table(table)
     lentable = len(table)
-    print("main queue.qsize() :",queue.qsize())
+    print("main queue.qsize() :",table_queue.qsize())
     for j in range(thread_count) :
         #print("thread {} entered ".format(j))
         thread = threading.Thread(target=setting.setting_column_on_queue)
         thread.start()
-    for j in range(queue.qsize() % thread_count) :
+    for j in range(table_queue.qsize() % thread_count) :
         setting.setting_column_on_queue()
 
     
@@ -118,8 +118,8 @@ for i in range(1) :
     print("time :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
     res.append(round(time.time() - start,2))
 queueres = []
-for i in range(queue.qsize()) :
-    queueres.append(queue.get())
+for i in range(table_queue.qsize()) :
+    queueres.append(table_queue.get())
 #print("queueres :")
 #prints.print_list(queueres)
 for i in res :

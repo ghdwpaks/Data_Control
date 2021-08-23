@@ -2,8 +2,16 @@ import csv
 import os
 import threading
 import time
+from queue import Queue
+
+
+table_queue = Queue()  
 
 class setting :
+    def synchronization_queue_to_table(table) :
+        for i in table :
+            table_queue.put(i)
+        pass
 
     def get_table(filepath) :
             #table.csv
@@ -238,13 +246,23 @@ class Worker(threading.Thread):
     
 class sectors :
     def sector1() :
+
         table = []
         table = setting.get_table("table.csv")
         #print("len(table) bf :",len(table))
 
-        table = setting.setting_column(table)
+        setting.synchronization_queue_to_table(table)
+        #//////////////////////////////////////////////////////////////////////////////////////////////
+        #table = setting.setting_column(table)
         #print("len(table) af :",len(table))
         #prints.print_list(table)
+        for j in range(thread_count) :
+            #print("thread {} entered ".format(j))
+            thread = threading.Thread(target=setting.setting_column_on_queue)
+            thread.start()
+        for j in range(table_queue.qsize() % thread_count) :
+            setting.setting_column_on_queue()
+            
 
         big_cat = selects.select_lv1_category(table)
         print("sector1 bit_cat :")
@@ -354,6 +372,7 @@ class sectors :
 # get_table -> setting
 # get_table -> setting -> select_lv1_category
 
+thread_count = 12
 
 while True :
     print("\n\n\n")
