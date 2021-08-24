@@ -3,11 +3,13 @@ import os
 import threading
 import time
 from queue import Queue
+import copy as c
 
 
 table_queue = Queue()  
 big_cat_queue = Queue()
-
+last_ops_queue = Queue()
+user_big_cat = ""
 class setting :
     def setting_column_on_queue_bit_cat() :
         
@@ -221,6 +223,22 @@ class selects :
 
         #prints.print_list("select lv2 category res :",res)
         return res
+
+
+    def select_lv2_category_ops_on_queue() :
+        
+        for i in range(int(table_queue.qsize())//thread_count) :
+            try :
+                table_tuple = table_queue.get()
+                temp = c.deepcopy(table_queue)
+                if user_big_cat == temp[0] :
+                    last_ops_queue.put(temp)   
+
+                table_queue.put(table_tuple)
+
+            except :
+                break
+
     
     
     
@@ -299,13 +317,14 @@ class sectors :
         
         
         for j in range(thread_count) :
-            #print("thread {} entered ".format(j))
+
             thread = threading.Thread(target=setting.setting_column_on_queue_bit_cat)
             thread.start()
+
         for j in range(table_queue.qsize() % thread_count) :
             setting.setting_column_on_queue_bit_cat()
             
-
+        
 
         
         huge_cat = []
@@ -335,10 +354,23 @@ class sectors :
                 else :
                     print("주제가 포함되지 않음을 확인했습니다.")
                     continue
-            
+            '''
             small_cat = selects.select_lv2_category(table,user_big_cat)
             print("sector 1 small_cat :")
             prints.print_list(small_cat)
+            '''
+            for j in range(thread_count) :
+    
+                thread = threading.Thread(target=setting.select_lv2_category_ops_on_queue)
+                thread.start()
+
+            for j in range(table_queue.qsize() % thread_count) :
+                setting.select_lv2_category_ops_on_queue()
+            small_cat = []
+            for j in range(last_ops_queue.qsize()) :
+                temp = last_ops_queue.get()
+                small_cat.append(temp)
+            
 
             kinds_lv2 = []
             for i in table :
