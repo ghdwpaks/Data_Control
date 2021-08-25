@@ -15,7 +15,7 @@ class setting :
         
 
         
-        for i in range(int(table_queue.qsize())//6) :
+        for i in range(int(table_queue.qsize())//thread_count) :
             try :
                 table_tuple = table_queue.get()
                 #print("table_tuple :",table_tuple)
@@ -230,7 +230,9 @@ class selects :
         for i in range(int(table_queue.qsize())//thread_count) :
             try :
                 table_tuple = table_queue.get()
-                temp = c.deepcopy(table_queue)
+                print("select_lv2_category_ops_on_queue table_tuple :",table_tuple)
+                temp = c.deepcopy(table_tuple)
+                print("select_lv2_category_ops_on_queue temp : ",temp)
                 if user_big_cat == temp[0] :
                     last_ops_queue.put(temp)   
 
@@ -263,13 +265,14 @@ class prints :
             elif prints.get_real_length_on_CMD(table[i]) < 16 :
                 print("\t",end="")
 
+
     def get_real_length_on_CMD(string) :
         count = 0
         for i in range(len(string)) :
             if string[i].encode().isdigit() :
                 count += 1
             else :
-                if string[i] == "]" or string[i] == "[" or string[i] == ")" or string[i] == "(" or string[i] == " " or string[i].encode().isalpha():
+                if string[i] == "]" or string[i] == "[" or string[i] == ")" or string[i] == "(" or string[i] == " " or string[i] == "." or string[i] == "," or string[i].encode().isalpha():
                     #영어 맞음
                     count += 1
                 else :
@@ -323,9 +326,11 @@ class sectors :
 
         for j in range(table_queue.qsize() % thread_count) :
             setting.setting_column_on_queue_bit_cat()
-            
-        
 
+
+        print("big_cat_queue.qsize() :",big_cat_queue.qsize())
+        print("last_ops_queue.qsize() :",last_ops_queue.qsize())
+        print("table_queue.qsize() :",table_queue.qsize())
         
         huge_cat = []
         for j in range(big_cat_queue.qsize()) :
@@ -344,6 +349,7 @@ class sectors :
             
 
             prints.print_div_6(huge_cat)
+            print()
             user_big_cat = ""
             while True :
                 print("종류를 정확히 골라주세요")
