@@ -227,12 +227,12 @@ class selects :
 
     def select_lv2_category_ops_on_queue() :
         
-        for i in range(int(table_queue.qsize())//thread_count) :
+        for i in range(table_queue.qsize()//thread_count) :
             try :
                 table_tuple = table_queue.get()
-                print("select_lv2_category_ops_on_queue table_tuple :",table_tuple)
+                
                 temp = c.deepcopy(table_tuple)
-                print("select_lv2_category_ops_on_queue temp : ",temp)
+                
                 if user_big_cat == temp[0] :
                     last_ops_queue.put(temp)   
 
@@ -354,6 +354,7 @@ class sectors :
             while True :
                 print("종류를 정확히 골라주세요")
                 user_big_cat = input("입력 :")
+                user_big_cat = user_big_cat.strip()
                 if user_big_cat in huge_cat :
                     print("주제가 정확히 들어맞음을 확인했습니다.")
                     break
@@ -367,30 +368,24 @@ class sectors :
             '''
             for j in range(thread_count) :
     
-                thread = threading.Thread(target=setting.select_lv2_category_ops_on_queue)
+                thread = threading.Thread(target=selects.select_lv2_category_ops_on_queue)
                 thread.start()
 
             for j in range(table_queue.qsize() % thread_count) :
-                setting.select_lv2_category_ops_on_queue()
+                selects.select_lv2_category_ops_on_queue()
+            print("point 1 ")
             small_cat = []
             for j in range(last_ops_queue.qsize()) :
                 temp = last_ops_queue.get()
                 small_cat.append(temp)
-            
 
-            kinds_lv2 = []
-            for i in table :
-                if i[1] not in kinds_lv2 :
-                    kinds_lv2.append(i[1])
-            print("duplicate_deficiencying kinds_lv2 :",kinds_lv2)
-            prints.print_list(kinds_lv2)
-            setting.sorting_grade(kinds_lv2)
             print("1.품목명별 정보 출력(기본값)")
             print("2.단위별 정보 출력")
             print("3.등급별 정보 출력")
             print("4.가격별 정보 출력")
             sorting_sub = input("입력 : ")
             kinds_res_cat = setting.duplicate_deficiencying_name(small_cat)
+            print("kinds_res_cat :",kinds_res_cat)
             kinds_res_cat = setting.integrating_list(kinds_res_cat)
 
             
@@ -400,7 +395,6 @@ class sectors :
             elif sorting_sub== "2" :
                 print("단위별 정보 출력 선택됨")
                 #kinds_res_cat.sort(key=lambda x:x[1])
-                
             elif sorting_sub== "3" :
                 print("등급별 정보 출력 선택됨")
                 kinds_res_cat.sort(key=lambda x:x[2])
