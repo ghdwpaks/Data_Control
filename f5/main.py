@@ -17,6 +17,7 @@ class setting :
         
         for i in range(int(table_queue.qsize())//thread_count) :
             try :
+
                 table_tuple = table_queue.get()
                 #print("table_tuple :",table_tuple)
                 temp = str(table_tuple[0]).split("]")
@@ -226,14 +227,19 @@ class selects :
 
 
     def select_lv2_category_ops_on_queue() :
+        global user_big_cat
         
         for i in range(table_queue.qsize()//thread_count) :
             try :
                 table_tuple = table_queue.get()
+                #print("select_lv2_category_ops_on_queue table_tuple :",table_tuple)
                 
                 temp = c.deepcopy(table_tuple)
-                
-                if user_big_cat == temp[0] :
+                #print("select_lv2_category_ops_on_queue temp :",temp)
+                print("user_big_cat :",user_big_cat)
+                #print("user_big_cat in temp[0]  :",user_big_cat in temp[0] )
+                if user_big_cat in temp[0] :
+                    #print("temp :",temp)
                     last_ops_queue.put(temp)   
 
                 table_queue.put(table_tuple)
@@ -366,6 +372,8 @@ class sectors :
             print("sector 1 small_cat :")
             prints.print_list(small_cat)
             '''
+            print("before table_queue.qsize():",table_queue.qsize())
+            print("user_big_cat :",user_big_cat)
             for j in range(thread_count) :
     
                 thread = threading.Thread(target=selects.select_lv2_category_ops_on_queue)
@@ -373,11 +381,16 @@ class sectors :
 
             for j in range(table_queue.qsize() % thread_count) :
                 selects.select_lv2_category_ops_on_queue()
+            print("after table_queue.qsize():",table_queue.qsize())
             print("point 1 ")
+            print("last_ops_queue.qsize() :",last_ops_queue.qsize())
             small_cat = []
             for j in range(last_ops_queue.qsize()) :
                 temp = last_ops_queue.get()
                 small_cat.append(temp)
+
+            print("small_cat :")
+            prints.print_list(small_cat)
 
             print("1.품목명별 정보 출력(기본값)")
             print("2.단위별 정보 출력")
