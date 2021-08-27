@@ -9,7 +9,7 @@ import copy as c
 table_queue = Queue()  
 big_cat_queue = Queue()
 last_ops_queue = Queue()
-user_big_cat = ""
+user_big_cat = "nonn"
 class setting :
     def setting_column_on_queue_bit_cat() :
         
@@ -228,7 +228,7 @@ class selects :
 
     def select_lv2_category_ops_on_queue() :
         global user_big_cat
-        
+        print("select_lv2_category_ops_on_queue user_big_cat :",user_big_cat)
         for i in range(table_queue.qsize()//thread_count) :
             try :
                 table_tuple = table_queue.get()
@@ -236,7 +236,7 @@ class selects :
                 
                 temp = c.deepcopy(table_tuple)
                 #print("select_lv2_category_ops_on_queue temp :",temp)
-                print("user_big_cat :",user_big_cat)
+                
                 #print("user_big_cat in temp[0]  :",user_big_cat in temp[0] )
                 if user_big_cat in temp[0] :
                     #print("temp :",temp)
@@ -303,6 +303,7 @@ class Worker(threading.Thread):
     
 class sectors :
     def sector1() :
+        global user_big_cat
 
         table = []
         table = setting.get_table("table.csv")
@@ -356,7 +357,7 @@ class sectors :
 
             prints.print_div_6(huge_cat)
             print()
-            user_big_cat = ""
+            print("sector 1 point 1 user_big_cat :",user_big_cat)
             while True :
                 print("종류를 정확히 골라주세요")
                 user_big_cat = input("입력 :")
@@ -373,7 +374,7 @@ class sectors :
             prints.print_list(small_cat)
             '''
             print("before table_queue.qsize():",table_queue.qsize())
-            print("user_big_cat :",user_big_cat)
+            print("sector 1 point 2 user_big_cat :",user_big_cat)
             for j in range(thread_count) :
     
                 thread = threading.Thread(target=selects.select_lv2_category_ops_on_queue)
