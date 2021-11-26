@@ -555,6 +555,7 @@ for i in range(len(s)) :
         weapon_list.append(s[i])
 print("weapon_list :",weapon_list)
 
+
 img_type = []
 for i in range(len(weapon_list)) :
     type_name = weapon_list[i][list(weapon_list[i]).index("."):]
@@ -567,17 +568,23 @@ print("2 img_type :",img_type)
 # .50 , .45 ACP .56 .357 .7 USG .308 은 총에 대한 구경의 크기 및 탄종 구분을 위한 데이터이니
 # 실질적인 이미지 파일의 종류는 .jpg 와 .png 만 있는것을 확인할 수 있습니다.
 img_type = [".jpg",".png"]
+weapon_list = []
+for i in range(len(s)) :
+    for j in range(len(img_type)) :
+        if img_type[j] in s[i] :
+            weapon_list.append(s[i+1])
+print("weapon_list :",weapon_list)
+'''
 structured_weapon_list = []
 for i in range(len(weapon_list)) :
     for k in range(len(img_type)) :
         if img_type[k] in weapon_list[i] :
             temp_lsit = str(weapon_list[i]).split(" ")
-            for j in range(len(temp_lsit)) :
-                structured_weapon_list.append(str(temp_lsit[j]).split(img_type[k])[0])
+            structured_weapon_list.append(weapon_list[i+1])
 print("structured_weapon_list :",structured_weapon_list)
-
+'''
 
 """
-structured_weapon_list : ['AR33', 'G36C', 'R4C', 'R6S', '556xi', 'F2', 'AK12', 'AUG', 'Commando', 'Picture1', '11', 'Buck', '1', 'MK17CQB', '2', 'Para-308', 'Type', '89', 'AR', 'C7E', '3', 'M762', '4', 'Spear', '308', '5', 'V308', '6', 'AR-15', '7', 'M4', 'R6S', 'AK47M', 'R6S', 'ARX20', 'R6S', 'F90', 'R6S', 'Commando9', 'P226', 'R6S', 'M45Meusoc', 'R6S', '57USG', '8', 'P9', '9', 'LFP586', 'R6S', 'pmm', 'R6S', 'gsh18', 'Gun', '1', 'R6S', 'MK19mm', 'R6S', 'd50', '10', 'PRB92', 'Gun', '2', 'Luison', '11', 'P229', '12', 'USP40', '13', 'Q-929', 'Gun', '3', 'RG15', 'Gun', '4', 'Keratos', 'Gun', '5', 'Bailiff410', 'R6S', 'P10C', 'Gun', '6', '1911', 'Tacops', 'R6S', '44auto', 'R6S', 'SDP9mm', 'Gun', '7', '6P41', 'Gun', '8', 'G8A1', 'Gun', '9', 'M249', 'Gun', '10', 'T-95', 'Gun', '11', 'LMG-E', 'Gun', '12', 'Alda', 'R6S', 'M249', 'SMG11', 'Gun', '13', 'Bearing', '9', 'Gun', '14', 'C75', 'Auto', 'R6S', 'SMG12', 'Gun', '15', 'SPSMG9', 'Gun', '16', '417', 'Gun', '17', 'Ots-03', 'Gun', '18', 'CAMRS', 'Gun', '19', 'SR-25', 'Gun', '20', 'MK14', 'R6S', 'm590A1', 'R6S', 'M1014', 'Gun', '21', 'SG-CQB', 'R6S', 'SASG12', 'Gun', '23', 'M870', 'R6S', 'Super90', 'Gun', '22', 'Spas-12', 'Gun', '24', 'Spas-15', 'Gun', '45', 'Supernova', 'Gun', '25', 'ITA12L', 'R6S', 'SIX12', 'Gun', '26', 'SIX12', 'Gun', '27', 'FO-12', 'Gun', '28', 'BOSG', 'Gun', '46', 'ACS12', 'Fixed', 'R6S', 'TCSG12', 'Gun', '42', 'Ital', 'Short', 'R6S', 'SuperShorty', 'Gun', '29', 'MP5K', 'R6S', 'FMG9', 'Gun', '30', 'UMP', 'Gun', '31', 'MP5', 'Gun', '32', 'P90', 'R6S', '9x19vsn', 'Gun', '33', 'MP7', 'R6S', '9mmC1', 'R6S', 'MPX', 'Gun', '34', 'M12', 'Gun', '35', 'MP5SD', 'Gun', '36', 'PDW9', 'Gun', '41', 'Vector', 'ACP', 'Gun', '37', 'T-5', 'SMG', 'Gun', '38', 'Scoprion', 'Gun', '39', 'K1A', 'Gun', '40', 'MPX', 'R6S', 'AugA3', 'R6S', 'P10Roni']
+weapon_list : ['AR33', 'G36C', 'R4-C', '556xi', 'F2', 'AK-12', 'AUG A2', '552 Commando', '416-C Carbine', 'C8-SFW', 'MK17 CQB', 'Para-308', 'Type-89', 'C7E', 'M762', 'Spear .308', 'V308', 'AR-15.50', 'M4', 'AK-74M', 'ARX200', 'F90', 'Commando 9', 'P226 MK 25', 'M45 MEUSOC', '5.7 USG', 'P9', 'LFP586', 'PMM', 'GSH-18', 'P12', 'MMK19mm', 'D-50', 'PRB92', 'Luison', 'P229', 'USP40', 'Q-929', 'RG15', 'KERATOS.357', 'Baliff410', 'P-10C', '1911 TACOPS', '.44 Mag Semi-Auto', 'SDP 9mm', '6P41', 'G8A1', 'M249', 'T-95 LSW', 'LMG-E', 'ALDA 5.56', 'M249 SAW', 'SMG-11', 'BEARING 9', 'C75 Auto', 'SMG-12', 'SPSMG9', '417', 'Ots-03', 'CAMRS', 'SR-25', 'Mk 14 EBR', 'M590A1', 'M1014', 'SG-CQB', 'SASG-12', 'M870', 'Super 90', 'SPAS-12', 'SPAS-15', 'Supernova', 'ITA12L', 'SIX12 SD', 'SIX12', 'FO-12', 'BOSG.12.2', 'ACS12', 'TCSG12', 'ITA12S', 'Super Shorty', 'MP5K', 'FMG-9', 'UMP45', 'MP5', 'P90', '9x19VSN', 'MP7', '9mm C1', 'MPX', 'M12', 'MP5SD', 'PDW9', 'Vector .45 ACP', 'T-5 SMG', 'Scorpion EVO3 A1', 'K1A', 'Mx4 Storm', 'AUG A3', 'P10 Roni']
 """
 
