@@ -1,0 +1,35 @@
+AR33    :2
+G36C    :2
+R4-C    :3
+556xi   :2
+F2      :1
+AK-12   :1
+AUG A2  :3
+552 Commando    :1
+C8-SFW  :1
+MK17 CQB        :5
+Para-308        :4
+Type-89 :1
+C7E     :1
+M762    :2
+Spear .308      :1
+V308    :4
+AR-15.50        :5
+M4      :1
+AK-74M  :2
+ARX200  :1
+F90     :2
+6P41    :2
+G8A1    :1
+M249    :5
+T-95 LSW        :4
+LMG-E   :1
+M249 SAW        :4
+SPSMG9  :3
+417     :1
+Ots-03  :4
+CAMRS   :5
+SR-25   :5
+Mk 14 EBR       :3
+FMG-9   :3
+MP7     :3
