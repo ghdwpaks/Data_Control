@@ -1,4 +1,4 @@
-from Set import SetClass
+from main.Set import SetClass
 import csv
 import time
 
