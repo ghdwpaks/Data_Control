@@ -1,7 +1,7 @@
 
 from msilib.schema import tables
 from main.Set import SetClass
-from main.Log import Log
+from main.PrintLog import Log
 
 Table = SetClass.GetTable("main/table.csv")
 #for i in Table : print(i)

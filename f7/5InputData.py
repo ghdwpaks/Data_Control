@@ -5,6 +5,13 @@ date1 = "201905"
 print(date1[:4])
 print(date1[4:])
 
+def func() :
+    return [1,2]
+s , e = func()
+print(s,e)
+print('eval("1-2") :',eval("1-2"))
+print("eval('2') :",eval("2"))
+print(type(eval("2")))
 
 while True :
     StartPoint = input("출력을 원하는 시작기간(ex.201905)을 입력해주세요.(미입력시 2019년 5월부터)\n")
