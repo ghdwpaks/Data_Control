@@ -22,7 +22,16 @@ class SetClass :
             Table[i].update({"고유번호":i+1})
         return Table
 
-
+    def ApplyLoc(Table) :
+        #{'기준년월': '2020-11', '시군구명': '권선구', '읍면동명': '고색동', '성별': '여', '연령대': '10대', '업종명': '약국', '결제건수': '4', '결제금액': '15500', '데이터기준일자': '2020-12-11', '고유번호': 103}
+        for i in range(len(Table)) :
+            Table[i]["기준년월"] = str(int(Table[i]["기준년월"].split("-")[0])*365+int(Table[i]["기준년월"].split("-")[1])*30)
+            Table[i]["지역"] = str(Table[i]["시군구명"])+"."+str(Table[i]["읍면동명"])
+            del Table[i]["시군구명"]
+            del Table[i]["읍면동명"]
+            del Table[i]["데이터기준일자"]
+        #{'기준년월': '737630', '성별': '남', '연령대': '20대', '업종명': '보건위생', '결제건수': '12', '결제금액': '149000', '지역': '권선구.고색동', '고유번호': 14}
+        return Table
 
 
 
@@ -37,12 +46,7 @@ class SetClass :
         5 : 결재건수
         6 : 결재금액
         '''
-        for i in range(len(Table)) :
-            Table[i]["기준년월"] = str(int(Table[i]["기준년월"].split("-")[0])*365+int(Table[i]["기준년월"].split("-")[1])*30)
-            Table[i]["지역"] = str(Table[i]["시군구명"])+"."+str(Table[i]["읍면동명"])
-            del Table[i]["시군구명"]
-            del Table[i]["읍면동명"]
-            del Table[i]["데이터기준일자"]
+        Table = SetClass.ApplyLoc(Table)
         #for i in Table : print(i)
         SetClass.ApplyPriNum(Table)
         #im.PrintLog.Write(Table)

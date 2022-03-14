@@ -1,5 +1,6 @@
 
 
+import os
 import Importer as im
 
 class Func :
@@ -32,6 +33,7 @@ class Func :
         #StartPoint="2019-04" , EndPoint="2020-11"
         return [StartPoint, EndPoint]
 
+
     def Year2Num(date) :
         
         if len(date)>6 :
@@ -60,18 +62,56 @@ class Func :
 
     def PrintToDate(table) :
         print("기간별 출력을 선택하셨습니다.")
-        kl = im.KeyList.ReturnList()
-        #print("kl 1 :",kl)
-        #for i in range(len(kl[0])) :print(kl[0][i],end="\n")
         
         StartPoint, EndPoint = im.Func.InputDate()
         Table = im.SetClass.ApplyPeriod(table,StartPoint,EndPoint)
-
-        #print(KeyList.ReturnList())
         subject = im.KeyList.SelectSortSubject()
         Return = im.SetClass.ApplySort(Table,subject)
         return Return
         
-            
+    
+    def PrintToSub(table) :
+        print("종목별 출력을 선택하셨습니다.")
+        Table = im.SetClass.ApplyPriNum(table)
+        Table = im.SetClass.ApplyLoc(Table)
+        Subject = im.KeyList.SelectKindOfSubject(5)
+        Subject = im.KeyList.SelectKindOf(Subject)
+        Result=[]
+        
+        '''
+        print("Subject :",Subject)
+        print("len(Subject) :",len(Subject))
+        print("Table[0] :",Table[0])
+        print("list(Table[0].values()) :",list(Table[0].values()))
+        CorrCount = 0
+        for i in range(len(Subject)):
+            for j in range(len(Subject[i])) :
+                print("Subject[",i,"][",j,"] :",Subject[i][j])
+                print("list(Table[0].values()) :",list(Table[0].values()))
+                print("Subject[",i,"][",j,"] in list(Table[0].values()) :",Subject[i][j] in list(Table[0].values()) )
+                if Subject[i][j] in list(Table[0].values()) :
+                    CorrCount += 1
+                    break
+            if CorrCount >= len(Subject) :
+                Result.append(Table[0])
+        print("Result :",Result)
+        os.system("pause")
+        '''
+
+        for k in range(len(Table)) :
+            CorrCount = 0
+            for i in range(len(Subject)):
+                for j in range(len(Subject[i])) :
+                
+                
+                    if Subject[i][j] in list(Table[k].values()) :
+                        CorrCount += 1
+                        break
+                if CorrCount >= len(Subject) :
+                    Result.append(Table[k])
+        Subject = im.KeyList.SelectSortSubject()
+        Result = im.SetClass.ApplySort(Result,Subject)
+                
+        im.PrintLog.Write(Result)
         
 

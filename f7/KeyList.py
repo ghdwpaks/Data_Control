@@ -57,26 +57,23 @@ class KeyList :
         while PassAble :
             Userans = input("""
 (선택종료 : exit, e, ㄷ턋, ㄷ)
-1. 기준년월
-2. 장소
-3. 성별
-4. 연령대
-5. 업종명
+1. 장소
+2. 성별
+3. 연령대
+4. 업종명
 선택 >""")
-            if Userans == "1" or Userans == "기준년월" :
-                Result.append("기준년월")
+            if Userans == "1" or Userans == "장소" :
+                Result.append(1)
                 if len(Result) > AnsLim : del Result[0]
-            elif Userans == "2" or Userans == "장소" :
-                Result.append("장소")
+            elif Userans == "2" or Userans == "성별" :
+                Result.append(2)
                 if len(Result) > AnsLim : del Result[0]
-            elif Userans == "3" or Userans == "성별" :
-                Result.append("성별")
+            elif Userans == "3" or Userans == "연령대" :
+                Result.append(3)
                 if len(Result) > AnsLim : del Result[0]
-            elif Userans == "4" or Userans == "연령대" :
-                Result.append("연령대")
+            elif Userans == "4" or Userans == "업종명" :
+                Result.append(4)
                 if len(Result) > AnsLim : del Result[0]
-            elif Userans == "5" or Userans == "업종명" :
-                Result.append("업종명")
                 if len(Result) > AnsLim : del Result[0]
             elif Userans == "exit" or Userans == "e" or Userans == "ㄷ턋" or Userans == "ㄷ" :
                 print("선택을 종료합니다.")
@@ -92,19 +89,21 @@ class KeyList :
 
 
     def SelectKindOf(SubNum):
-        #SubNum = [0,1,3]
+        #SubNum = [1,3,4]
         KindOf = KeyList.ReturnList()
         Result = []
+        for i in range(len(SubNum)) :
+            Result.append([])
         for i in range(len(SubNum)):
-            PrintLog.print_div_6(KindOf[i])
+            PrintLog.print_div_6(KindOf[SubNum[i]])
             while True :
-                UserInput = input("선택 :")
-                if UserInput in KindOf[i] :
-                    Result.append(UserInput)
+                UserInput = input("\n선택 :")
+                if UserInput == "exit" or UserInput == "e" or UserInput == "ㄷ턋" or UserInput == "ㄷ" :
+                    print("입력을 종료합니다.")
                     break
+                if UserInput in KindOf[SubNum[i]] :
+                    Result[i].append(UserInput)
                 else :
                     print("다시 선택해주세요.")
-                    continue
-        
         return Result
 
