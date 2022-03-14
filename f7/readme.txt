@@ -14,3 +14,11 @@ https://www.data.go.kr/data/15075618/fileData.do
 
 결재건수가 가장 많은 시기(시간), 지역(시군구, 읍면동), 성별, 연령대, 업종명
 
+파이썬 2차원 배열 정렬(역순방법 포함)
+https://ooyoung.tistory.com/59
+
+파이썬 2차원 배열 정렬
+https://kingofbackend.tistory.com/98
+
+
+

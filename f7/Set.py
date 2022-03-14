@@ -1,5 +1,6 @@
-
+import copy as c
 import csv
+from re import sub
 from unittest import result
 
 import Importer as im
@@ -21,7 +22,11 @@ class SetClass :
             Table[i].update({"고유번호":i+1})
         return Table
 
-    def ApplySort(Table,Sub="결재금액",StartTime=737055,EndTime=737630) :
+
+
+
+
+    def ApplyPeriod(Table,StartTime=737055,EndTime=737630) :
         #{'기준년월': '2020-11', '시군구명': '권선구', '읍면동명': '고색동', '성별': '여', '연령대': '10대', '업종명': '약국', '결제건수': '4', '결제금액': '15500', '데이터기준일자': '2020-12-11', '고유번호': 103}
         '''
         0 : 기준년월
@@ -49,17 +54,52 @@ class SetClass :
             if StartTime <= int(Table[i]["기준년월"]) and int(Table[i]["기준년월"]) <= EndTime :
                 Result.append(Table[i])
             
-        #im.PrintLog.Write(Result)
-        StartPoint, EndPoint = im.Func.InputDate()
-        #print("1 StartPoint :",StartPoint)
-        #print("1 EndPoint :",EndPoint)
-        StartPoint = im.Func.Year2Num(StartPoint)
-        EndPoint = im.Func.Year2Num(EndPoint)
-        print("2 StartPoint :",StartPoint)
-        print("2 EndPoint :",EndPoint)
         for i in range(len(Result)) :
             Result[i]["기준년월"] = im.Func.Num2Year(Result[i]["기준년월"])
         im.PrintLog.Write(Result)
+        return Result
+
+
+
+
+
+    def ApplySort(Table,Sub="결제금액",Reverse=True) :
+        TempTable = []
+        Str2IntAble = SetClass.CheckAbleStr2Int(Table[0][Sub])
+        print("Str2IntAble :",Str2IntAble)
+        for i in range(len(Table)) :
+            if Str2IntAble :
+                #문자열(기본) => 정수 가능
+                TempTable.append([int(Table[i][Sub]),Table[i]["고유번호"]])
+            else :
+                TempTable.append([Table[i][Sub],Table[i]["고유번호"]])
+        #for i in TempTable : print(i)
+        TempTable.sort(reverse=Reverse,key=lambda x : (x[0], x[1]))
+        for i in TempTable : print(i)
+        Result = c.deepcopy(TempTable)
+        for i in range(len(Result)) :
+            for j in range(len(Table)) :
+                if Result[i][1] == Table[j]["고유번호"] :
+                    Result[i] = c.deepcopy(Table[j])
+                    break
+        
+        im.PrintLog.Write(Result) 
+
+                
+
+        
+    def CheckAbleStr2Int(var) :
+        AboutAble = False
+        try : 
+            tmp = int(var)
+            AboutAble = True
+        except :
+            AboutAble = False
+        return AboutAble
+
+
+
+        
         
 
 
