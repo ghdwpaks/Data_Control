@@ -66,7 +66,7 @@ class SetClass :
     def ApplySort(Table,Sub="결제금액",Reverse=True) :
         TempTable = []
         Str2IntAble = SetClass.CheckAbleStr2Int(Table[0][Sub])
-        print("Str2IntAble :",Str2IntAble)
+        #print("Str2IntAble :",Str2IntAble)
         for i in range(len(Table)) :
             if Str2IntAble :
                 #문자열(기본) => 정수 가능
@@ -75,7 +75,7 @@ class SetClass :
                 TempTable.append([Table[i][Sub],Table[i]["고유번호"]])
         #for i in TempTable : print(i)
         TempTable.sort(reverse=Reverse,key=lambda x : (x[0], x[1]))
-        for i in TempTable : print(i)
+        #for i in TempTable : print(i)
         Result = c.deepcopy(TempTable)
         for i in range(len(Result)) :
             for j in range(len(Table)) :
@@ -84,6 +84,7 @@ class SetClass :
                     break
         
         im.PrintLog.Write(Result) 
+        return Result
 
                 
 

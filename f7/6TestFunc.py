@@ -9,7 +9,7 @@ Table = im.SetClass.ApplyPeriod(Table,StartPoint,EndPoint)
 
 #print(KeyList.ReturnList())
 subject = KeyList.SelectSortSubject()
-im.SetClass.ApplySort(Table,subject)
+subject = im.SetClass.ApplySort(Table,subject)
 
 
 

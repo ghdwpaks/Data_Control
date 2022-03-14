@@ -19,8 +19,8 @@ class Func :
                 
         while True :
             EndPoint = input("출력을 원하는 종단기간(ex.202011) 입력해주세요.(미입력시 2020sus 11월까지)\n")
-            if EndPoint == "" :
-                print("종단기간을 미응답 2020년 07월까지로 설정하였습니다.")
+            if EndPoint == "" or int(EndPoint[:4]) >= 2020:
+                print("종단기간을 미응답 2020년 11월까지로 설정하였습니다.")
                 EndPoint="2020-11"
                 break
             elif (int(EndPoint[:4]) <= 2020 and int(EndPoint[:4]) >= int(StartPoint[:4]) and int(EndPoint[4:]) <= 12 and int(EndPoint[4:]) >= 00)or(EndPoint[:4]>StartPoint[:4]):
@@ -64,20 +64,13 @@ class Func :
         #print("kl 1 :",kl)
         #for i in range(len(kl[0])) :print(kl[0][i],end="\n")
         
-        StartPoint , EndPoint = Func.InputDate()
-        
-        print("StartPoint :",StartPoint)
-        print("EndPoint :",EndPoint)
-        Times=[]
+        StartPoint, EndPoint = im.Func.InputDate()
+        Table = im.SetClass.ApplyPeriod(table,StartPoint,EndPoint)
 
-        Result = []
-        for i in range(len(table)) :
-            if (table[i]["기준년월"].split("-")[1] >= StartPoint.split("-")[1]) or (table[i]["기준년월"].split("-")[1] <= EndPoint.split("-")[1]):
-                Result.append(table[i])
-        print(len(Result))
-        print(Result[0])
-        im.PrintLog.Write(Result)
-        return Result
+        #print(KeyList.ReturnList())
+        subject = im.KeyList.SelectSortSubject()
+        Return = im.SetClass.ApplySort(Table,subject)
+        return Return
         
             
         

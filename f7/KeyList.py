@@ -37,13 +37,13 @@ class KeyList :
         return KindOf
 
     def SelectSortSubject() :
-        Userans = input("""
+        while True :
+            Userans = input("""
 (선택종료 : exit, e, ㄷ턋, ㄷ)
 1. 고유번호
 2. 결제건수
 3. 결제금액
 선택 >""")
-        while True :
             if Userans == "1" or Userans == "고유번호" : return "고유번호"
             elif Userans == "2" or Userans == "결제건수" : return "결제건수"
             elif Userans == "3" or Userans == "결제금액" : return "결제금액"
@@ -56,13 +56,13 @@ class KeyList :
         Result = []
         while PassAble :
             Userans = input("""
-            (선택종료 : exit, e, ㄷ턋, ㄷ)
-            1. 기준년월
-            2. 장소
-            3. 성별
-            4. 연령대
-            5. 업종명
-            선택 >""")
+(선택종료 : exit, e, ㄷ턋, ㄷ)
+1. 기준년월
+2. 장소
+3. 성별
+4. 연령대
+5. 업종명
+선택 >""")
             if Userans == "1" or Userans == "기준년월" :
                 Result.append("기준년월")
                 if len(Result) > AnsLim : del Result[0]

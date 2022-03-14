@@ -20,5 +20,5 @@ while True :
         print("기간별 출력을 선택하셨습니다.")
         im.Func.PrintToDate(table)
     elif UserAnswer == "2" :
-        print("결개건수별 출력을 선택하셨습니다.")
+        print("별개건수별 출력을 선택하셨습니다.")
     else : continue
