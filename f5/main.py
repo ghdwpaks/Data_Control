@@ -318,7 +318,7 @@ class sectors :
         #print("len(table) af :",len(table))
         #prints.print_list(table)
         for j in range(thread_count) :
-            #print("thread {} entered ".format(j))
+            #print("thread {} entered ".format(j))  
             thread = threading.Thread(target=setting.setting_column_on_queue)
             thread.start()
         for j in range(table_queue.qsize() % thread_count) :
