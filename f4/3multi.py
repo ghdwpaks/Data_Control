@@ -7,7 +7,6 @@ import time
 
 secs = time.time()
 globali = 0
-from cv2 import RNG_NORMAL
 table = Queue()
 
 def get_table(filepath) :

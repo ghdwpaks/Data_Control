@@ -14,7 +14,7 @@ def get_table(filepath) :
         return table
 
 table = get_table("table.csv")
-#for i in table : print(i)
+#for i in table : #print(i)
 
 #{'1': '[파인애플]파인애플(수입)', '2': '12kg', '3': '특(1등)', '4': 'x000', '5': '필리핀', '6': '일반', '7': '20210331'}
 #"품목명","단위","등급","가격","산지","친환경구분","입력일"
@@ -25,10 +25,14 @@ table_min_ops = []
 for i in range(len(table)):
     table_min_ops.append([table[i]["1"],table[i]["2"],table[i]["3"],table[i]["4"],table[i]["7"]])
 
-print("len(table) :",len(table))
-print("len(table_min_ops) :",len(table_min_ops))
-
+#print("len(table) :",len(table))
+#print("len(table_min_ops) :",len(table_min_ops))
+#for i in range(100) : print(table[i])
 #for i in table_min_ops : print(i)
+
+
+
+
 
 #평균 가격 테이블
 avgs = []
@@ -37,49 +41,57 @@ avgs = []
 collected_ops = []
 
 #['[고추]꽈리고추', '.2kg', '특(1등)', '2200', '20210401']
-temp_same = [table_min_ops[0]]
-print("temp_same :",temp_same)
-print('temp_same[-1][-1] :',temp_same[-1][-1])
+#temp_same = [['[쪽파]쪽파', '1kg', '특(1등)', '500000' , '20210331']]
+temp_same = [[table_min_ops[0][0],table_min_ops[0][1],table_min_ops[0][2],0,table_min_ops[0][4]]]
+
+#print("temp_same :",temp_same)
+#print('temp_same[-1][-1] :',temp_same[-1][-1])
 counts = 0
-for i in range(100) :
+counts2 = 0
+for i in range(len(table_min_ops)) :
     try :
-        if (str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2])==str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2])) :
-            #print(str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2])==str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
-            #print("str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :",str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]))
-            #print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
+        #print("str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :\t\t",str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]),"i :",i)
+        #print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :\t",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
+        
+        if (str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2])==str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2])) and not (i == len(table_min_ops)-1):
+            #print("if?true")
+            
             #print("temp_same :")
-            #for j in temp_same : print(j)
+            #for j in temp_same : #print(j)
             temp_same.append(table_min_ops[i])
             counts+=1
         else :
+            #print("if?false")
             #print("active else")
-            temp_same.append(table_min_ops[i])
-            temp_avgs_pri = 0
-            print("temp_same :",temp_same)
-            #print("temp_avgs_pri 1:",temp_avgs_pri)
+            #temp_same.append(table_min_ops[i])
+            temp_sum_pri = 0
+            #print("temp_same :",temp_same)
+            #print("temp_sum_pri 1:",temp_sum_pri)
             for k in range(len(temp_same)):
-                print("temp_same[k] :",temp_same[k])
-                print("temp_same[k][3] :",temp_same[k][3])
-                temp_avgs_pri += int(temp_same[k][3])
-            print("temp_avgs_pri 2:",temp_avgs_pri)
+                #print("temp_same[k] :",temp_same[k])
+                #print("temp_same[k][3] :",temp_same[k][3])
+                temp_sum_pri += int(temp_same[k][3])
+                counts2+=1
+            #print("temp_sum_pri 2:",temp_sum_pri)
             
-            collected_ops.append([temp_same[0][0],temp_same[0][1],temp_same[0][2],temp_avgs_pri,temp_same[0][4]])
-            temp_same = [table_min_ops[i+1]]
+            collected_ops.append([temp_same[0][0],temp_same[0][1],temp_same[0][2],temp_sum_pri,temp_same[0][4]])
+            temp_same = [table_min_ops[i]]
+            counts2+=1
             counts+=1
     except :
         
-        print("오류 발생")
-        print("i :",i)
-        print('str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :',str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]))
-        print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
-        print("table_min_ops[i] :",table_min_ops[i])
+        #print("오류 발생")
+        #print("i :",i)
+        #print('str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :',str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]))
+        #print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
+        #print("table_min_ops[i] :",table_min_ops[i])
         break
-print("collected_ops :")
-for i in collected_ops : print(i)
+#print("collected_ops :")
+#for i in collected_ops : print(i)
 
 #try except문으로 빠져서 collected_ops에 담기지 않은 값이 있는지 길이를 비교하기
-print("len(table_min_ops) :",len(table_min_ops))
-print("counts :",counts)
+#print("len(table_min_ops) :",len(table_min_ops))
+#print("counts :",counts)
 
 '''
 지금 현재 보면 뭔가 이상하다는것을 볼 수 있다.
@@ -91,6 +103,7 @@ print("counts :",counts)
 
 이렇다면 '서로 다른 날짜에 입력된 데이터'의 평균이 아니라 '서로 다른 무게'의 평균으로 내야할거같다.
 
+중간에 행들이 자꾸 나뉘고, 한번에 정렬이 되지 않는 이유는 이 정보들이 '날짜','이름','지역','단위' 순으로 되어있기 때문인거같다.
 
 collected_ops :
 ['[쪽파]쪽파', '1kg', '특(1등)', 42900, '20210331']
@@ -115,6 +128,124 @@ collected_ops :
 ['[참다래(키위)]참다래(키위)', '10kg', '특(1등)', 587000, '20210331']
 len(table_min_ops) : 466088
 counts : 100
+
+
+['[쪽파]쪽파', '1kg', '특(1등)', 14900, '20210331']
+['[쪽파]쪽파', '10kg', '특(1등)', 28000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 294000, '20210331']
+['[쪽파]쪽파(일반)', '1kg', '특(1등)', 2700, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 63000, '20210331']
+['[쪽파]쪽파(일반)', '11kg', '특(1등)', 28000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 46000, '20210331']
+['[쪽파]쪽파(일반)', '1kg', '특(1등)', 2500, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 16000, '20210331']
+['[쪽파]쪽파(일반)', '1kg', '특(1등)', 5200, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 38000, '20210331']
+['[쪽파]쪽파(일반)', '8kg', '특(1등)', 10000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 21000, '20210331']
+['[쪽파]쪽파(일반)', '1kg', '특(1등)', 2600, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 151000, '20210331']
+['[쪽파]쪽파(일반)', '12kg', '특(1등)', 26000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 106000, '20210331']
+['[쪽파]쪽파(일반)', '1kg', '특(1등)', 1000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 26000, '20210331']
+['[쪽파]쪽파(일반)', '6kg', '특(1등)', 16000, '20210331']
+['[쪽파]쪽파(일반)', '10kg', '특(1등)', 31000, '20210331']
+['[쪽파]포장쪽파', '10kg', '특(1등)', 208000, '20210331']
+['[쭈꾸미국산]쭈꾸미국산', '5kg', '보통(3등)', 182000, '20210331']
+['[쭈꾸미국산]쭈꾸미국산', '10kg', '보통(3등)', 20000, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '2kg', '보통(3등)', 14000, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '2.4kg', '보통(3등)', 16000, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '2kg', '보통(3등)', 15300, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '3kg', '보통(3등)', 24800, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '2kg', '보통(3등)', 61700, '20210331']
+['[쭈꾸미수입]쭈꾸미수입', '4kg', '보통(3등)', 32000, '20210331']
+['[참나물]참나물', '4kg', '특(1등)', 10000, '20210331']
+['[참나물]참나물(일반)', '4kg', '특(1등)', 21000, '20210331']
+['[참나물]참나물(참나물)', '4kg', '특(1등)', 9000, '20210331']
+['[참다래(키위)]참다래(키위)', '10kg', '특(1등)', 561000, '20210331']
+['[참당귀]당귀잎', '4kg', '특(1등)', 4000, '20210331']
+len(table_min_ops) : 466088
 '''
 
+#print("div point 1")
+sum_table_min_ops = 0
+for i in range(len(table_min_ops)) :
+    sum_table_min_ops += int(table_min_ops[i][3])
+    #print(str(table_min_ops[i][3])+"+",end="")
+#2400+2500+2600+2300+2700+28000+19000+27000+16000+22000+26000+18000+21000+24000+23000+23000+25000+14000+17000+19000+2700+20000+25000+18000+28000+26000+20000+2500+16000+2400.+2800+18000+20000+10000+21000+2600+22000+23000+14000+22000+23000+19000+28000+26000+24000+21000+18000+27000+16000+1000+26000.+16000+31000+24000+25500+26000.+20000+20000+22500+19000+25000+26000+43000+49000+48000+42000+20000+14000+16000+15300+24800.+15000+15200+15500+16000+32000+10000+11000+10000+9000+22000+42000+40000.+48000+50000+42000+34000+17000+26000+38000+22000+30000+24000+24000+33000+32000+17000+20000+4000+48000
 
+#2400+2500+2600+2300+2700+28000+19000+27000+16000+22000+26000+18000+21000+24000+23000+23000+25000+14000+17000+19000+2700+20000+25000+18000+28000+26000+20000+2500+16000+2400 = 495100 R1
+#2400.+2800+18000+20000+10000+21000+2600+22000+23000+14000+22000+23000+19000+28000+26000+24000+21000+18000+27000+16000+1000+26000 = 386800 R2
+#16000+31000+24000+25500+26000.+20000+20000+22500+19000+25000+26000+43000+49000+48000+42000+20000+14000+16000+15300+24800 = 527100 R3
+#15000+15200+15500+16000+32000+10000+11000+10000+9000+22000+42000+40000.+48000+50000+42000+34000+17000+26000+38000+22000+30000+24000+24000+33000+32000+17000+20000+4000 = 698700 R4
+print("\n\nsum_table_min_ops :",sum_table_min_ops)
+#sum_table_min_ops : 2153300
+#R2 첫 행인 2400 값과 마지막에 48000 은 집계되지 않은걸로 나타남...왜?
+
+
+sum_collected_ops = 0
+for i  in range(len(collected_ops)) :
+    sum_collected_ops += int(collected_ops[i][3])
+    #print(str(collected_ops[i][3])+"+",end="")
+#14900+28000+294000+2700+63000+28000+46000+2500+16000.+5200+38000+10000+21000+2600+151000+26000+106000+1000+26000+16000+31000+208000+182000+20000+14000+16000+15300+24800.+61700+32000+10000+21000+9000+561000+4000
+
+#14900+28000+294000+2700+63000+28000+46000+2500+16000 = 495100 R1
+#5200+38000+10000+21000+2600+151000+26000+106000+1000+26000 = 386800 R2
+#16000+31000+208000+182000+20000+14000+16000+15300+24800 = 527100 R3
+#61700+32000+10000+21000+9000+561000+4000 = 698700 R4
+
+
+print("\n\nsum_collected_ops :",sum_collected_ops)
+#sum_collected_ops : 2107700
+
+'''
+결과 및 특이사항.
+2153300 = 2107700 + 45600
+
+수합 범위 길이 문제로 인한 마지막 행의 집계실수 : 48000
+
+2153300 + 2400 = 2107700 + (45600 - 48000)
+
+따라서
+기본값(sum_table_min_ops)에서 2400의 금액이 추가로 들어간 값이 결과값(sum_collected_ops)이 됐다.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+sum_table_min_ops : 2153300
+512500+28000+294000+2700+63000+28000+46000+2500+16000+5200+38000+10000+21000+2600+151000+26000+106000+1000+26000+16000+31000+208000+182000+20000+14000+16000+15300+24800+61700+32000+10000+21000+9000+561000+4000+
+
+sum_collected_ops : 2605300
+512500+28000+294000+2700+63000+28000+46000+2500+16000+5200+38000+10000+21000+2600+151000+26000+106000+1000+26000+16000+31000+208000+182000+20000+14000+16000+15300+24800+61700+32000+10000+21000+9000+561000+4000+
+
+이 코드의 문제점이 발견됐다.
+
+위에서 발생된 문제(2400의 추금)는 맨 처음 컬럼을 설정할때 나타난 문제로써 반복문의 문제가 아닌것으로 판단했다.
+이를 증명하기 위해 첫번째 temp_same의 값을 2400이 아닌 500000으로 눈에 띄게 증가시킨 결과, 둘의 값이 확연하게 차이가 나는것으로 확인됐다.
+
+이 문제는 첫번째 컬럼 값 중에서 '금액'에 관련된 값을 0 으로 만듦으로써 해결할 수 있을것으로 보인다.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+69,000
+
+
+sum_table_min_ops : 9993122067
+sum_collected_ops : 9993053067
+9993122067 = 9993053067 + 69000
+
+table.csv의 마지막 2행이
+[오이]백다다기18kg특(1등)35000경북상주시우수농산물20210430
+[오이]백다다기18kg특(1등)35000경북상주시우수농산물20210430
+이다.
+
+이 코드는 기본적으로 '전의 행과 이번에 비교할 행의 차이점'을 판별해서 값을 수합하는 코드인데
+마지막으로 가니 '전의 행'은 있지만 '이번에 비교할 행'이 사라지게 되니
+if 문에는 걸리지 않지만 코드가 끝나버린다.
+
+대략적으로(대충짚어) 이런 문제가 생겼지만 git 의 버전관리 기능으로 코드 복구 편의성을...
+커밋하고 다음으로 가겠다.
+
+'''
+#print("\n\n\nlen(collected_ops) :",len(collected_ops))
+#print("counts2 :",counts2)
