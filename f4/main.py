@@ -1,6 +1,7 @@
 import copy as c
 import csv
 
+
 from numpy import append
 
 
@@ -48,8 +49,11 @@ temp_same = [[table_min_ops[0][0],table_min_ops[0][1],table_min_ops[0][2],0,tabl
 #print('temp_same[-1][-1] :',temp_same[-1][-1])
 counts = 0
 counts2 = 0
+#print(table_min_ops[len(table_min_ops)-1])
+#print(table_min_ops[len(table_min_ops)])
 for i in range(len(table_min_ops)) :
     try :
+        #print("i :",i)
         #print("str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :\t\t",str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]),"i :",i)
         #print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :\t",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
         
@@ -60,6 +64,22 @@ for i in range(len(table_min_ops)) :
             #for j in temp_same : #print(j)
             temp_same.append(table_min_ops[i])
             counts+=1
+        elif (i == len(table_min_ops)-1) :
+            print("temp_sum_pri :",temp_sum_pri)
+            temp_sum_pri = 0
+            print("1 collected_ops[-1] :",collected_ops[-1])
+            
+            temp_same.append(table_min_ops[i])
+            print("elif temp_same :",temp_same)
+            print("elif temp_same :")
+            for k in temp_same : print(k)
+            for k in range(len(temp_same)):
+                temp_sum_pri += int(temp_same[k][3])
+                counts2+=1
+            collected_ops.append([temp_same[0][0],temp_same[0][1],temp_same[0][2],temp_sum_pri,temp_same[0][4]])
+            print("2 collected_ops[-1] :",collected_ops[-1])
+            counts2+=1
+            counts+=1
         else :
             #print("if?false")
             #print("active else")
@@ -67,6 +87,8 @@ for i in range(len(table_min_ops)) :
             temp_sum_pri = 0
             #print("temp_same :",temp_same)
             #print("temp_sum_pri 1:",temp_sum_pri)
+            #print("else temp_same :",temp_same)
+            #for k in temp_same : print(k)
             for k in range(len(temp_same)):
                 #print("temp_same[k] :",temp_same[k])
                 #print("temp_same[k][3] :",temp_same[k][3])
@@ -80,12 +102,15 @@ for i in range(len(table_min_ops)) :
             counts+=1
     except :
         
-        #print("오류 발생")
-        #print("i :",i)
+        print("오류 발생")
+        print("i :",i)
+        print("table_min_ops[i] :",table_min_ops[i])
         #print('str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]) :',str(temp_same[-1][0])+str(temp_same[-1][1])+str(temp_same[-1][2]))
         #print("str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]) :",str(table_min_ops[i][0])+str(table_min_ops[i][1])+str(table_min_ops[i][2]))
         #print("table_min_ops[i] :",table_min_ops[i])
         break
+print("len(table_min_ops) :",len(table_min_ops))
+
 #print("collected_ops :")
 #for i in collected_ops : print(i)
 
@@ -243,9 +268,25 @@ table.csv의 마지막 2행이
 마지막으로 가니 '전의 행'은 있지만 '이번에 비교할 행'이 사라지게 되니
 if 문에는 걸리지 않지만 코드가 끝나버린다.
 
-대략적으로(대충짚어) 이런 문제가 생겼지만 git 의 버전관리 기능으로 코드 복구 편의성을...
-커밋하고 다음으로 가겠다.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if 문에 and not (i == len(table_min_ops)-1) 구문을 추가하고
+
+elif (i == len(table_min_ops)-1) :
+    temp_sum_pri = 0
+    temp_same.append(table_min_ops[i])
+    for k in range(len(temp_same)):
+        temp_sum_pri += int(temp_same[k][3])
+        counts2+=1
+    collected_ops.append([temp_same[0][0],temp_same[0][1],temp_same[0][2],temp_sum_pri,temp_same[0][4]])
+
+위의 문단을 추가했더니 정상작동했다.
+
+기본적인 문제는 temp_sum_pri으로부터 발생했는데, temp_sum_pri 을 수합 전의 값인 0 으로 맞추는 (초기화)과정을 거치지 않고서
+값을 도출하려고 하니 +45000의 오차가 발생했다.
+temp_sum_pri = 0 구문을 넣어서 이 문제를 해결했다.
+
+위의 코드는 함수로 다시 감싸서, 원하는 값의 형식의 기초를 다지는 중추코드로써 다시 만들어질것이다.
 
 '''
-#print("\n\n\nlen(collected_ops) :",len(collected_ops))
-#print("counts2 :",counts2)
