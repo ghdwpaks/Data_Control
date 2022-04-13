@@ -238,7 +238,7 @@ class selects :
                 print("select_lv2_category_ops_on_queue temp :",temp)
                 
                 print("user_big_cat in temp[0]  :",user_big_cat in temp[0] )
-                if "["+str(user_big_cat)+"]" in temp[0] :
+                if user_big_cat in temp[0] :
                     print("temp :",temp)
                     last_ops_queue.put(temp)   
 
@@ -312,42 +312,24 @@ class sectors :
         '''
         table = setting.setting_column(table)
         '''
-        setting.synchronization_queue_to_table(table)
+        for i in range(len(table)) :
+            table[i] = [table[i]["품목명"],table[i]["단위"],table[i]["등급"],table[i]["가격"]]
+        #table_queue.put([table_tuple["품목명"],table_tuple["단위"],table_tuple["등급"],table_tuple["가격"]])
+        #setting.synchronization_queue_to_table(table)
         #//////////////////////////////////////////////////////////////////////////////////////////////
         #table = setting.setting_column(table)
         print("len(table) af :",len(table))
         prints.print_list(table)
-        for j in range(thread_count) :
-            print("thread {} entered ".format(j))  
-            thread = threading.Thread(target=setting.setting_column_on_queue)
-            thread.start()
-        for j in range(table_queue.qsize() % thread_count) :
-            setting.setting_column_on_queue()
         
-        
-        
-        for j in range(thread_count) :
-
-            thread = threading.Thread(target=setting.setting_column_on_queue_bit_cat)
-            thread.start()
-
-        for j in range(table_queue.qsize() % thread_count) :
-            setting.setting_column_on_queue_bit_cat()
-
-
-        print("big_cat_queue.qsize() :",big_cat_queue.qsize())
-        print("last_ops_queue.qsize() :",last_ops_queue.qsize())
-        print("table_queue.qsize() :",table_queue.qsize())
-        
-        huge_cat = []
-        for j in range(big_cat_queue.qsize()) :
-            temp1 = big_cat_queue.get()
-            huge_cat.append(temp1)
-        huge_cat = set(huge_cat)
-        huge_cat = list(huge_cat)
-        huge_cat.sort()
-        prints.print_list(huge_cat)
-        print("len(huge_cat) :",len(huge_cat))
+        name_kat = []
+        for i in range(len(table)):
+            temp = str(table[i][0]).split("]")
+            del temp[0]
+            temp = str(temp[0]).split("(")[0]
+            name_kat.append(temp)
+        name_kat = set(name_kat)
+        name_kat = list(name_kat)
+        name_kat.sort()
 
 
         #os.system("pause")
@@ -355,15 +337,16 @@ class sectors :
         while True :
             
 
-            prints.print_div_6(huge_cat)
+            prints.print_div_6(name_kat)
             print()
             print("sector 1 point 1 user_big_cat :",user_big_cat)
             while True :
                 print("종류를 정확히 골라주세요")
+               
                 #user_big_cat = input("입력 :")
                 user_big_cat = "파"
                 user_big_cat = user_big_cat.strip()
-                if user_big_cat in huge_cat :
+                if user_big_cat in name_kat :
                     print("주제가 정확히 들어맞음을 확인했습니다.")
                     break
                 else :
@@ -376,23 +359,10 @@ class sectors :
             '''
             print("before table_queue.qsize():",table_queue.qsize())
             print("sector 1 point 2 user_big_cat :",user_big_cat)
-            for j in range(thread_count) :
-    
-                thread = threading.Thread(target=selects.select_lv2_category_ops_on_queue)
-                thread.start()
-
-            for j in range(table_queue.qsize() % thread_count) :
-                selects.select_lv2_category_ops_on_queue()
-            print("after table_queue.qsize():",table_queue.qsize())
-            print("point 1 ")
-            print("last_ops_queue.qsize() :",last_ops_queue.qsize())
-            small_cat = []
-            for j in range(last_ops_queue.qsize()) :
-                temp = last_ops_queue.get()
-                small_cat.append(temp)
-
-            print("small_cat :")
-            prints.print_list(small_cat)
+            last_ops = []
+            for i in range(len(table)) :
+                if "["+str(user_big_cat)+"]" in table[i][0] :
+                    last_ops.append(table[i])
 
             print("1.품목명별 정보 출력(기본값)")
             print("2.단위별 정보 출력")
@@ -400,7 +370,7 @@ class sectors :
             print("4.가격별 정보 출력")
             #sorting_sub = input("입력 : ")
             sorting_sub = "1"
-            kinds_res_cat = setting.duplicate_deficiencying_name(small_cat)
+            kinds_res_cat = setting.duplicate_deficiencying_name(last_ops)
             print("kinds_res_cat :",kinds_res_cat)
             kinds_res_cat = setting.integrating_list(kinds_res_cat)
 
@@ -467,7 +437,6 @@ class sectors :
 thread_count = 12
 
 while True :
-
     print("\n\n\n")
     print("농수산물 정보 출력 시스템에 진입했습니다.")
     print("원하는 기능을 '숫자로만' 선택해주세요.")
