@@ -467,7 +467,7 @@ class sectors :
 thread_count = 12
 
 while True :
-
+    
     print("\n\n\n")
     print("농수산물 정보 출력 시스템에 진입했습니다.")
     print("원하는 기능을 '숫자로만' 선택해주세요.")
